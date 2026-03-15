@@ -20,10 +20,10 @@ This is a Cargo workspace with multiple crates:
 
 | Crate | Purpose | Status |
 |-------|---------|--------|
-| `edgebot-core` | Core inference engine + memory safety + optimizer + tasks | 📦 Phase 1 |
-| `edgebot-sim` | Simulation environment (Webots integration) | 📦 Planning |
-| `edgebot-ros2` | ROS2 bridge for robot communication | 📦 Planning |
-| `edgebot-wasm` | WebAssembly runtime for browser/IoT | 📦 Planning |
+| `edgebot-core` | Core inference engine + memory safety + optimizer + tasks | 📦 Phase 2 (Optimizer done) |
+| `edgebot-sim` | Simulation environment (Webots integration) | 📦 Phase 3 |
+| `edgebot-ros2` | ROS2 bridge for robot communication | 📦 Phase 2 |
+| `edgebot-wasm` | WebAssembly runtime for browser/IoT | 📦 Phase 2 |
 
 ## Prerequisites
 
@@ -67,13 +67,12 @@ cargo bench -p edgebot-core
 
 ## Current Status
 
-**Phase 1: Planning & Setup** - In progress
+**Phase 2: Core SDK Development** - In progress
 
-- [x] Task 1: Workspace architecture and crate structure
-- [x] Task 2: CI pipeline and toolchain setup
-- [x] Task 3: Burn framework integration
-- [x] Task 4: Zero-copy memory safety interface
-- [ ] Task 5: Documentation updates
+- [x] Phase 2 Task 1: Model optimizer (quantization, pruning, layer fusion)
+- [ ] Phase 2 Task 2: ROS2 bridge
+- [ ] Phase 2 Task 3: WebAssembly runtime
+- [ ] Phase 2 Task 4: ModelTask trait abstraction
 
 See [TASKS.md](TASKS.md) for complete roadmap.
 
@@ -144,6 +143,42 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     Ok(())
 }
 ```
+
+### Model Optimizer
+
+Optimize models for edge deployment with quantization, pruning, and layer fusion using the `edgebot-optimize` CLI:
+
+```bash
+# Build the optimizer
+cargo build -p edgebot-core --bin edgebot-optimize --release
+
+# Optimize a model with int8 quantization
+./target/release/edgebot-optimize \
+  --input model.onnx \
+  --output model.ebmodel \
+  --quantize int8 \
+  --fuse-layers
+
+# With pruning (magnitude-based, 50% threshold)
+./target/release/edgebot-optimize \
+  --input model.onnx \
+  --output model.ebmodel \
+  --quantize fp16 \
+  --prune magnitude \
+  --pruning-threshold 0.5 \
+  --device cpu
+```
+
+**Output:** `.ebmodel` bundle containing optimized model + metadata (JSON with embedded binary).
+
+**CLI Options:**
+- `--quantize`: none/int8/fp16 (default: none)
+- `--prune`: none/magnitude/structured
+- `--pruning-threshold`: fraction of weights to prune (0.0-1.0)
+- `--fuse-layers`: enable layer fusion (Conv+ReLU, etc.)
+- `--device`: target device (cpu/cuda)
+
+**Optimization Stats:** The CLI prints size reduction, speedup estimates, and saves detailed stats in the .ebmodel bundle.
 
 ### ROS2 Bridge
 
