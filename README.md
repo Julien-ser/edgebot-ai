@@ -258,6 +258,91 @@ export EDGEBOT_LICENSE_KEY="your_license_key_here"
 
 The license key is an Ed25519 signed token verified offline. Contact sales@edgebot.ai to obtain a pro license.
 
+## EdgeBot Dashboard
+
+The EdgeBot Dashboard is a modern web application built with Yew and Rust WebAssembly. It provides a comprehensive interface for monitoring simulation results, tracking model performance metrics, and managing your Pro subscription.
+
+### Features
+
+- **Simulation Monitoring**: View real-time and historical simulation jobs, including FPS, inference latency, memory usage, and detailed performance breakdowns.
+- **Model Metrics**: Track inference latency, memory footprint, and model size across different platforms (x86_64, ARM, WASM).
+- **License Management**: Check your subscription status, view active features, and manage your EDGEBOT_LICENSE_KEY.
+
+### Building
+
+Build the dashboard using **Trunk** (the recommended approach):
+
+```bash
+# Install trunk (once)
+cargo install trunk
+
+# Build for production
+cd edgebot-dashboard
+trunk build --release
+```
+
+Alternatively, use the included build script:
+
+```bash
+cd edgebot-dashboard
+./build-dashboard-wasm.sh --release
+```
+
+The compiled static files will be in the `dist/` directory.
+
+### Running Locally
+
+Start a local development server with hot reloading:
+
+```bash
+cd edgebot-dashboard
+trunk serve --open
+```
+
+Or serve the built files:
+
+```bash
+cd edgebot-dashboard/dist
+python3 -m http.server 8000
+# Open http://localhost:8080
+```
+
+### Deployment
+
+The dashboard is a static site and can be deployed to any static hosting service.
+
+#### GitHub Pages
+
+1. Build the dashboard: `trunk build --release`
+2. Copy the build output to the `docs/` directory (which GitHub Pages uses):
+   ```bash
+   cp -r dist/* ../docs/
+   ```
+3. Commit and push to GitHub. GitHub Pages will automatically serve from the `docs/` folder.
+   Alternatively, use the provided GitHub Actions workflow (`.github/workflows/dashboard.yml`) for automatic deployment on push to `main`.
+
+> **Note**: If your repository is served from a subpath (e.g., `https://username.github.io/edgebot-ai/`), you may need to set `public_url` in `edgebot-dashboard/trunk.toml` accordingly (e.g., `public_url = "/edgebot-ai"`).
+
+#### Netlify
+
+- Build command: `trunk build --release`
+- Publish directory: `edgebot-dashboard/dist`
+- Add an environment variable `EDGEBOT_SIM_SERVER_URL` if connecting to a remote simulation server.
+
+### Configuration
+
+- **Simulation Server**: By default, the dashboard connects to `http://localhost:8080`. Override via the `EDGEBOT_SIM_SERVER_URL` environment variable.
+- **License**: Pro license status is verified locally. Set `EDGEBOT_LICENSE_KEY` in the environment (or in your shell) to enable Pro features.
+
+### Architecture
+
+The dashboard integrates with the EdgeBot ecosystem via two main APIs:
+
+- **SimServerClient**: Fetches simulation jobs and results from the `edgebot-sim-server`.
+- **LicensingClient**: Checks local license verification using the `edgebot-licensing` crate.
+
+All data is fetched asynchronously using `wasm_bindgen_futures` and displayed using reactive Yew components.
+
 ## Monetization & License Verification
 
 EdgeBot AI uses a freemium model:

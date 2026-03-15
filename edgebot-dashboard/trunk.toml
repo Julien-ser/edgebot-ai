@@ -5,8 +5,8 @@
 # Output directory for static files
 outdir = "dist"
 
-# Main HTML file (relative to workspace root)
-index = "index.html"
+ # Main HTML file (relative to workspace root)
+ index = "public/index.html"
 
 # The public URL where the site will be deployed
 # For GitHub Pages, set to "/edgebot-ai" or your repo name

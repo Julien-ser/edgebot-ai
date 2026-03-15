@@ -88,14 +88,14 @@ impl SimServerClient {
         world_file: Option<&str>,
     ) -> Result<String, String> {
         use gloo_net::http::FormData;
-        use web_sys::Blob;
+        use web_sys::{Blob, Uint8Array};
 
         let form = FormData::new().map_err(|e| e.to_string())?;
 
         // Create blob for model file
-        let blob = Blob::new_with_u8_vector_array(&wasm_bindgen::JsValue::from_f64(
-            model_data.len() as f64
-        )).map_err(|e| e.to_string())?;
+        let uint8_array = Uint8Array::from(model_data.as_slice());
+        let blob = Blob::new_with_u8_vector_array(&uint8_array)
+            .map_err(|e| e.to_string())?;
         form.append_with_str("model", &blob).map_err(|e| e.to_string())?;
 
         if let Some(world) = world_file {
