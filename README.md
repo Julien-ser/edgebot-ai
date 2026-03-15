@@ -20,7 +20,7 @@ This is a Cargo workspace with multiple crates:
 
 | Crate | Purpose | Status |
 |-------|---------|--------|
-| `edgebot-core` | Core inference engine + memory safety + optimizer + tasks | 📦 Phase 2 (Optimizer done) |
+| `edgebot-core` | Core inference engine + memory safety + optimizer + tasks | ✅ Phase 2 (Core SDK completed) |
 | `edgebot-sim` | Simulation environment (Webots integration) | 📦 Phase 3 |
 | `edgebot-ros2` | ROS2 bridge for robot communication | 📦 Phase 2 |
 | `edgebot-wasm` | WebAssembly runtime for browser/IoT | ✅ Phase 2 (Runtime done) |
@@ -72,7 +72,7 @@ cargo bench -p edgebot-core
 - [x] Phase 2 Task 1: Model optimizer (quantization, pruning, layer fusion)
 - [x] Phase 2 Task 2: ROS2 bridge
 - [x] Phase 2 Task 3: WebAssembly runtime ✅ COMPLETED
-- [ ] Phase 2 Task 4: ModelTask trait abstraction
+- [x] Phase 2 Task 4: ModelTask trait abstraction ✅ COMPLETED
 
 See [TASKS.md](TASKS.md) for complete roadmap.
 
