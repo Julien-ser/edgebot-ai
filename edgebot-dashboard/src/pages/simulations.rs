@@ -153,10 +153,10 @@ pub fn SimulationsPage() -> Html {
                                     <span class="value">{world}</span>
                                 </div>
                             }
-                            if let Some(scenes) = &job.scenes.as_option().cloned() {
+                            if !job.scenes.is_empty() {
                                 <div class="detail-row">
                                     <span class="label">{"Scenes:"}</span>
-                                    <span class="value">{scenes.join(", ")}</span>
+                                    <span class="value">{job.scenes.join(", ")}</span>
                                 </div>
                             }
                             if let Some(metrics) = &job.metrics {
