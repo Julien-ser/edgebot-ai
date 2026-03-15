@@ -13,5 +13,9 @@ rclrs = "0.3"
 thiserror = "1.0"
 serde = { version = "1.0", features = ["derive"] }
 tracing = "0.1"
+edgebot-core = { path = "../edgebot-core" }
+sensor_msgs = "0.3"
+vision_msgs = "0.3"
+std_msgs = "0.3"
 
 [dev-dependencies]

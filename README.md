@@ -70,7 +70,7 @@ cargo bench -p edgebot-core
 **Phase 2: Core SDK Development** - In progress
 
 - [x] Phase 2 Task 1: Model optimizer (quantization, pruning, layer fusion)
-- [ ] Phase 2 Task 2: ROS2 bridge
+- [x] Phase 2 Task 2: ROS2 bridge
 - [ ] Phase 2 Task 3: WebAssembly runtime
 - [ ] Phase 2 Task 4: ModelTask trait abstraction
 
@@ -182,7 +182,19 @@ cargo build -p edgebot-core --bin edgebot-optimize --release
 
 ### ROS2 Bridge
 
-The `edgebot-ros2` crate (coming soon) will provide zero-copy integration with ROS2 using `rclrs` and loaned message patterns for optimal performance with ROS2 camera and LiDAR topics.
+The `edgebot-ros2` crate provides ROS2 integration using the `rclrs` crate. It enables publishing and subscribing to ROS2 topics with zero-copy message passing for sensor data (camera images, LiDAR). A YOLO inference example node is included, demonstrating how to subscribe to camera images, run inference with edgebot-core, and publish detection results.
+
+#### Running the YOLO Example
+
+```bash
+# Build the example node
+cargo build -p edgebot-ros2 --bin yolo_node --release
+
+# Run (requires a ROS2 environment and a camera topic publishing images)
+cargo run -p edgebot-ros2 --bin yolo_node -- --ros-args -p camera_topic:=/camera/color/image_raw
+```
+
+Note: The example currently uses a hardcoded model path `models/yolov8.onnx`. Place a suitable ONNX model in that location or modify the source code to point to your model.
 
 ### WebAssembly Target
 

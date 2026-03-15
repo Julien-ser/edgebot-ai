@@ -20,6 +20,10 @@ serde_json = "1.0"
 tracing = "0.1"
 clap = { version = "4.0", features = ["derive"] }
 env_logger = "0.10"
+rclrs = "0.3"
+sensor_msgs = "0.3"
+vision_msgs = "0.3"
+std_msgs = "0.3"
 
 [dev-dependencies]
 criterion = "0.5"
