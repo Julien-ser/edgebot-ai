@@ -32,7 +32,7 @@ Competitors like TensorFlow Lite lack Rust's native safety; your edge: seamless 
 ## Phase 3: Simulation & Compilation
 - [x] Task 1: Integrate Webots robotics simulator via `webots-sys` FFI bindings, providing a headless simulation mode for testing models on virtual robots. Deliverable: `edgebot-sim/src/webots.rs` with Python-like API wrapper for spawn, step, and sensor retrieval.
 - [x] Task 2: Build cloud simulation service using Actix Web API for uploading models, running batch simulations (multi-scene), and returning performance metrics (FPS, memory). Deliverable: `edgebot-sim-server/src/` with endpoints `/simulate`, `/results` and Dockerfile for deployment.
-- [ ] Task 3: Implement cross-compilation toolchain for native ARM targets (aarch64-unknown-linux-gnu, thumbv7em-none-eabihf) using `cross` or custom Docker images, with automatic detection of target hardware (Raspberry Pi, STM32). Deliverable: `edgebot-cli/src/compile.rs` subcommand producing statically linked binaries. ✅ COMPLETED - Created edgebot-cli with compile subcommand supporting auto-detection and cross-compilation for RPi (aarch64-musl) and STM32 (thumbv7em)
+- [x] Task 3: Implement cross-compilation toolchain for native ARM targets (aarch64-unknown-linux-gnu, thumbv7em-none-eabihf) using `cross` or custom Docker images, with automatic detection of target hardware (Raspberry Pi, STM32). Deliverable: `edgebot-cli/src/compile.rs` subcommand producing statically linked binaries.
 - [ ] Task 4: Add profiling and benchmarking suite using `criterion` to measure inference latency, memory footprint, and model size across hardware. Deliverable: `benches/inference.rs` producing JSON reports for pro tier optimization recommendations.
 
 ## Phase 4: Deployment & Monetization
