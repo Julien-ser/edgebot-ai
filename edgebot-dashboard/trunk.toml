@@ -1,0 +1,58 @@
+# Trunk configuration for EdgeBot AI Dashboard
+# Build with: trunk build --release
+
+[build]
+# Output directory for static files
+outdir = "dist"
+
+# Main HTML file (relative to workspace root)
+index = "index.html"
+
+# The public URL where the site will be deployed
+# For GitHub Pages, set to "/edgebot-ai" or your repo name
+# For root domain, use "/"
+# public_url = "/"
+
+# Rust pipeline configuration
+pipeline = [
+    ["wasm-bindgen", "--no-typescript"],
+]
+
+# Minification settings
+[minify]
+# Doesn't work on wasm yet, but minifies JS/CSS
+wasm = false
+
+[clean]
+# Output directories to clean before build
+dirs = ["dist"]
+
+[copy]
+# Additional files to copy to dist
+files = [
+    { from = "static/styles.css", to = "styles.css" },
+]
+
+[watch]
+# Watch these directories for changes during `trunk watch`
+watch = ["src", "static"]
+
+[serve]
+# Port for dev server
+port = 8080
+# Open browser automatically
+open = false
+
+[target.wasm32-unknown-unknown]
+# Release optimizer flags
+rustflags = [
+    "-C", "link-arg=-s",
+    "-C", "link-arg=-zstack-size=32768",
+]
+
+[profile.release]
+# Optimize for size (good for web)
+lto = true
+codegen-units = 1
+opt-level = 'z'
+panic = "abort"
