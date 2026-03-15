@@ -73,3 +73,120 @@ Index: /home/julien/Desktop/Free-Wiggum-opencode/projects/edgebot-ai/TASKS.md
 [0m
 📝 Log saved: logs/iteration-1.md
 📊 Token Usage: 6500 / Session: 6500 / 64000
+✅ Changes committed
+To https://github.com/Julien-ser/edgebot-ai.git
+ * [new branch]      main -> main
+✅ Pushed to GitHub
+📊 Updated Tasks: 1/16 completed, 15 remaining
+   Next task: Task 2: Set up development environment with Rust toolchain, ...
+📍 Iteration 2 at Sun Mar 15 12:53:30 AM EDT 2026...
+🤖 OpenCode processing: Task 2: Set up development environment with Rust toolchain, `rust-analyzer`, and CI pipeline (GitHub Actions) for building, testing (cargo test), linting (clippy), and formatting (rustfmt). Include matrix builds for x86_64-unknown-linux-gnu and wasm32-unknown-unknown targets. Deliverable: `.github/workflows/ci.yml` and rust-toolchain.toml.
+[0m
+> build · stepfun/step-3.5-flash:free
+[0m
+[0m→ [0mRead .
+[0m→ [0mRead TASKS.md
+[0m→ [0mRead README.md
+I'll start by examining the current state of the repository and then complete Task 2: setting up the development environment with Rust toolchain and CI pipeline.
+[0m→ [0mRead Cargo.toml
+[0m✱ [0mGlob ".github/workflows/*.yml"[90m 4 matches[0m
+Now I'll check the workspace structure and any existing CI configuration:
+[0m→ [0mRead .github/workflows/test.yml
+Let me check the existing test.yml to see what's already configured:
+Now I'll create the Rust CI workflow and rust-toolchain.toml as required for Task 2.
+
+**Step 1: Create .github/workflows/ci.yml**
+[0m
+[0m← [0mWrite .github/workflows/ci.yml
+Wrote file successfully.
+[0m
+**Step 2: Create rust-toolchain.toml**
+[0m← [0mWrite rust-toolchain.toml
+Wrote file successfully.
+[0m
+[0m✗ [0medit failed
+[91m[1mError: [0mCould not find oldString in the file. It must match exactly, including whitespace, indentation, and line endings.
+**Step 3: Update README.md** (badge URL, Toolchain note, Phase status)
+Let me read the exact line from the README to match precisely:
+[0m→ [0mRead README.md[90m [limit=10, offset=1][0m
+[0m
+[0m← [0mEdit README.md
+Index: /home/julien/Desktop/Free-Wiggum-opencode/projects/edgebot-ai/README.md
+===================================================================
+--- /home/julien/Desktop/Free-Wiggum-opencode/projects/edgebot-ai/README.md
++++ /home/julien/Desktop/Free-Wiggum-opencode/projects/edgebot-ai/README.md
+@@ -1,7 +1,7 @@
+ # EdgeBot AI
+ 
+-[![CI](https://github.com/edgebot-ai/edgebot-ai/workflows/Test%20%26%20Validate/badge.svg)](https://github.com/edgebot-ai/edgebot-ai/actions)
++[![CI](https://github.com/edgebot-ai/edgebot-ai/workflows/CI%20(Rust)/badge.svg)](https://github.com/edgebot-ai/edgebot-ai/actions)
+ [![Rust](https://img.shields.io/badge/rust-1.70%2B-orange.svg)](https://www.rust-lang.org)
+ 
+ A Rust-based platform for deploying lightweight AI models on robots and IoT devices. EdgeBot AI provides zero-copy memory safety, WebAssembly compilation, and seamless ROS2 integration for edge inference.
+ 
+
+[0m
+Now I see it's `Test%20%26%20Validate` (with &). Let me correct:
+[0m→ [0mRead README.md[90m [limit=10, offset=28][0m
+**Add toolchain note to prerequisites:**
+[0m
+[0m← [0mEdit README.md
+Index: /home/julien/Desktop/Free-Wiggum-opencode/projects/edgebot-ai/README.md
+===================================================================
+--- /home/julien/Desktop/Free-Wiggum-opencode/projects/edgebot-ai/README.md
++++ /home/julien/Desktop/Free-Wiggum-opencode/projects/edgebot-ai/README.md
+@@ -28,8 +28,9 @@
+ ## Prerequisites
+ 
+ - Rust 1.70+ with `rustc`, `cargo`, `rustfmt`, `clippy`
+ - For WASM target: `rustup target add wasm32-unknown-unknown`
++- A `rust-toolchain.toml` is included to ensure consistent toolchain versions.
+ - For ROS2 integration: `ros2` installation (optional)
+ 
+ ## Setup
+ 
+
+[0m
+[0m→ [0mRead README.md[90m [limit=10, offset=66][0m
+**Update current phase to mark Task 2 as completed:**
+[0m
+[0m← [0mEdit README.md
+Index: /home/julien/Desktop/Free-Wiggum-opencode/projects/edgebot-ai/README.md
+===================================================================
+--- /home/julien/Desktop/Free-Wiggum-opencode/projects/edgebot-ai/README.md
++++ /home/julien/Desktop/Free-Wiggum-opencode/projects/edgebot-ai/README.md
+@@ -67,9 +67,9 @@
+ 
+ ## Current Phase: Phase 1 - Planning & Setup
+ 
+ - [x] Task 1: Workspace architecture and crate structure
+-- [ ] Task 2: CI pipeline and toolchain setup
++- [x] Task 2: CI pipeline and toolchain setup
+ - [ ] Task 3: Burn framework integration
+ - [ ] Task 4: Zero-copy memory safety interface
+ 
+ See [TASKS.md](TASKS.md) for complete roadmap.
+
+[0m
+[0m→ [0mRead TASKS.md[90m [limit=5, offset=20][0m
+**Step 4: Update TASKS.md** (mark Task 2 as complete)
+[0m
+[0m← [0mEdit TASKS.md
+Index: /home/julien/Desktop/Free-Wiggum-opencode/projects/edgebot-ai/TASKS.md
+===================================================================
+--- /home/julien/Desktop/Free-Wiggum-opencode/projects/edgebot-ai/TASKS.md
++++ /home/julien/Desktop/Free-Wiggum-opencode/projects/edgebot-ai/TASKS.md
+@@ -18,9 +18,9 @@
+ Competitors like TensorFlow Lite lack Rust's native safety; your edge: seamless ROS2 integration.
+ 
+ ## Phase 1: Planning & Setup
+ - [x] Task 1: Define Rust project architecture and crate structure for edgebot-ai monorepo using Cargo workspaces, with crates for core inference (`edgebot-core`), simulation (`edgebot-sim`), ROS2 integration (`edgebot-ros2`), and WASM compilation (`edgebot-wasm`). Deliverable: Complete `Cargo.toml` files and workspace configuration.
+-- [ ] Task 2: Set up development environment with Rust toolchain, `rust-analyzer`, and CI pipeline (GitHub Actions) for building, testing (cargo test), linting (clippy), and formatting (rustfmt). Include matrix builds for x86_64-unknown-linux-gnu and wasm32-unknown-unknown targets. Deliverable: `.github/workflows/ci.yml` and rust-toolchain.toml.
++- [x] Task 2: Set up development environment with Rust toolchain, `rust-analyzer`, and CI pipeline (GitHub Actions) for building, testing (cargo test), linting (clippy), and formatting (rustfmt). Include matrix builds for x86_64-unknown-linux-gnu and wasm32-unknown-unknown targets. Deliverable: `.github/workflows/ci.yml` and rust-toolchain.toml.
+ - [ ] Task 3: Integrate Burn framework (v0.12+) for model inference with backend selection (Autocast, Tch) and establish model format support (ONNX, Burn's `.bin`). Deliverable: `edgebot-core/src/inference/mod.rs` with burn tensor operations and model loading utilities.
+ - [ ] Task 4: Design zero-copy memory safety interface using Rust's `std::mem::MaybeUninit` and `ndarray`/`burn::tensor` for sharing sensor data (camera images, LiDAR) without copies between ROS2 messages and inference pipelines. Deliverable: `edgebot-core/src/memory/mod.rs` with safe pointer wrappers and documentation.
+ 
+ ## Phase 2: Core SDK Development
+
+[0m
+📝 Log saved: logs/iteration-2.md

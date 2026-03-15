@@ -1,0 +1,43 @@
+name: CI (Rust)
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main, develop ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        target: [x86_64-unknown-linux-gnu, wasm32-unknown-unknown]
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Cache cargo registry
+      uses: actions/cache@v4
+      with:
+        path: |
+          ~/.cargo/registry
+          ~/.cargo/git
+          target/${{ matrix.target }}
+        key: ${{ runner.os }}-cargo-${{ matrix.target }}-${{ hashFiles('**/Cargo.toml') }}
+
+    - name: Install Rust toolchain
+      uses: dtolnay/rust-toolchain@stable
+      with:
+        targets: ${{ matrix.target }}
+        components: rustfmt, clippy
+
+    - name: Build
+      run: cargo build --target ${{ matrix.target }}
+
+    - name: Test
+      run: cargo test --target ${{ matrix.target }} --verbose
+
+    - name: Clippy
+      run: cargo clippy --target ${{ matrix.target }} -- -D warnings
+
+    - name: Format check
+      run: cargo fmt -- --check

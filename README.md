@@ -1,6 +1,6 @@
 # EdgeBot AI
 
-[![CI](https://github.com/edgebot-ai/edgebot-ai/workflows/Test%20%26%20Validate/badge.svg)](https://github.com/edgebot-ai/edgebot-ai/actions)
+[![CI](https://github.com/edgebot-ai/edgebot-ai/workflows/CI%20(Rust)/badge.svg)](https://github.com/edgebot-ai/edgebot-ai/actions)
 [![Rust](https://img.shields.io/badge/rust-1.70%2B-orange.svg)](https://www.rust-lang.org)
 
 A Rust-based platform for deploying lightweight AI models on robots and IoT devices. EdgeBot AI provides zero-copy memory safety, WebAssembly compilation, and seamless ROS2 integration for edge inference.
@@ -29,6 +29,7 @@ This is a Cargo workspace with multiple crates:
 
 - Rust 1.70+ with `rustc`, `cargo`, `rustfmt`, `clippy`
 - For WASM target: `rustup target add wasm32-unknown-unknown`
+- A `rust-toolchain.toml` is included to ensure consistent toolchain versions.
 - For ROS2 integration: `ros2` installation (optional)
 
 ## Setup
@@ -67,7 +68,7 @@ cargo bench -p edgebot-core
 ## Current Phase: Phase 1 - Planning & Setup
 
 - [x] Task 1: Workspace architecture and crate structure
-- [ ] Task 2: CI pipeline and toolchain setup
+- [x] Task 2: CI pipeline and toolchain setup
 - [ ] Task 3: Burn framework integration
 - [ ] Task 4: Zero-copy memory safety interface
 
