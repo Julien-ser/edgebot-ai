@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EdgeBot AI Dashboard</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div id="app"></div>
+    <script type="module">
+        import init from './edgebot_dashboard.js';
+        init().then(() => {
+            console.log('EdgeBot Dashboard initialized');
+        }).catch(err => {
+            console.error('Failed to initialize dashboard:', err);
+        });
+    </script>
+</body>
+</html>
