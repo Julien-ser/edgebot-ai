@@ -6,6 +6,7 @@ members = [
     "edgebot-wasm",
     "edgebot-sim-server",
     "edgebot-cli",
+    "edgebot-licensing",
 ]
 
 resolver = "2"

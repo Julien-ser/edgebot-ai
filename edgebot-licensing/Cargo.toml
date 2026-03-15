@@ -1,0 +1,23 @@
+[package]
+name = "edgebot-licensing"
+version = "0.1.0"
+edition = "2021"
+description = "License verification system for EdgeBot AI pro features using Ed25519 signatures"
+license = "MIT OR Apache-2.0"
+homepage = "https://github.com/edgebot-ai/edgebot-ai"
+repository = "https://github.com/edgebot-ai/edgebot-ai"
+
+[dependencies]
+ed25519-dalek = { version = "2.1", features = ["rand_core"] }
+rand = "0.8"
+serde = { version = "1.0", features = ["derive"] }
+thiserror = "1.0"
+time = { version = "0.3", features = ["serde"] }
+base64 = "0.22"
+
+[dev-dependencies]
+criterion = "0.5"
+
+[[bench]]
+name = "verify_bench"
+harness = false

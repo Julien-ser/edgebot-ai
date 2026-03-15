@@ -168,6 +168,12 @@ pub struct SimulationResult {
 
 /// Main simulate function
 pub async fn run_simulate(args: SimulateArgs) -> Result<()> {
+    // Check pro license for cloud simulation
+    if args.cloud {
+        edgebot_licensing::check_cloud_sim()
+            .context("Cloud simulation is a pro feature. Set EDGEBOT_LICENSE_KEY environment variable with a valid pro license.")?;
+    }
+    
     let result = if args.cloud {
         run_cloud_simulation(&args).await?
     } else {

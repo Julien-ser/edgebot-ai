@@ -59,6 +59,10 @@ fn parse_pruning(s: &str) -> Result<Option<PruningStrategy>> {
 
 /// Main optimize function using edgebot-core optimizer
 pub fn run_optimize(args: OptimizeArgs) -> Result<()> {
+    // Check pro license for optimization feature
+    edgebot_licensing::check_optimization()
+        .context("Optimization is a pro feature. Set EDGEBOT_LICENSE_KEY environment variable with a valid pro license.")?;
+    
     // Validate input model exists
     if !args.input.exists() {
         anyhow::bail!("Input model not found: {:?}", args.input);
