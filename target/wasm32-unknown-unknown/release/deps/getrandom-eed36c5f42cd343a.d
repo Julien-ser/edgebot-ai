@@ -1,0 +1,11 @@
+/home/julien/Desktop/Free-Wiggum-opencode/projects/edgebot-ai/target/wasm32-unknown-unknown/release/deps/getrandom-eed36c5f42cd343a.d: /home/julien/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/getrandom-0.2.17/src/lib.rs /home/julien/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/getrandom-0.2.17/src/error.rs /home/julien/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/getrandom-0.2.17/src/util.rs /home/julien/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/getrandom-0.2.17/src/error_impls.rs /home/julien/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/getrandom-0.2.17/src/js.rs
+
+/home/julien/Desktop/Free-Wiggum-opencode/projects/edgebot-ai/target/wasm32-unknown-unknown/release/deps/libgetrandom-eed36c5f42cd343a.rlib: /home/julien/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/getrandom-0.2.17/src/lib.rs /home/julien/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/getrandom-0.2.17/src/error.rs /home/julien/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/getrandom-0.2.17/src/util.rs /home/julien/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/getrandom-0.2.17/src/error_impls.rs /home/julien/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/getrandom-0.2.17/src/js.rs
+
+/home/julien/Desktop/Free-Wiggum-opencode/projects/edgebot-ai/target/wasm32-unknown-unknown/release/deps/libgetrandom-eed36c5f42cd343a.rmeta: /home/julien/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/getrandom-0.2.17/src/lib.rs /home/julien/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/getrandom-0.2.17/src/error.rs /home/julien/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/getrandom-0.2.17/src/util.rs /home/julien/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/getrandom-0.2.17/src/error_impls.rs /home/julien/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/getrandom-0.2.17/src/js.rs
+
+/home/julien/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/getrandom-0.2.17/src/lib.rs:
+/home/julien/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/getrandom-0.2.17/src/error.rs:
+/home/julien/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/getrandom-0.2.17/src/util.rs:
+/home/julien/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/getrandom-0.2.17/src/error_impls.rs:
+/home/julien/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/getrandom-0.2.17/src/js.rs:
