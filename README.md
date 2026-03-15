@@ -80,16 +80,182 @@ cargo bench -p edgebot-core -- --output-format json > benchmark_results/raw.json
 - [x] Phase 3 Task 3: ARM cross-compilation toolchain ✅ COMPLETED
 - [x] Phase 3 Task 4: Profiling & benchmarking suite (criterion) ✅ COMPLETED
 
-**Phase 4: Deployment & Monetization** - Starting
+**Phase 4: Deployment & Monetization** - In progress
 
-- [ ] Phase 4 Task 1: Full EdgeBot CLI (deploy, simulate, optimize commands)
+- [x] Phase 4 Task 1: EdgeBot CLI (deploy, simulate, optimize commands) ✅ COMPLETED
 - [ ] Phase 4 Task 2: License verification system
 - [ ] Phase 4 Task 3: Dashboard frontend
 - [ ] Phase 4 Task 4: Comprehensive documentation
 
 See [TASKS.md](TASKS.md) for complete roadmap.
 
-## Architecture Highlights
+## EdgeBot CLI
+
+The `edgebot-cli` is the main command-line interface for end-users, providing commands for deployment, simulation, optimization, and cross-compilation.
+
+### Installation
+
+Build from the workspace:
+
+```bash
+cargo build --release -p edgebot-cli
+# Binary will be at: target/release/edgebot
+```
+
+Or install globally:
+
+```bash
+cargo install --path edgebot-cli
+```
+
+### Commands
+
+#### 1. Compile for ARM targets
+
+Cross-compile models for embedded ARM devices (Raspberry Pi, STM32, generic ARM).
+
+```bash
+# Auto-detect hardware and compile
+edgebot compile --model model.onnx --output binary
+
+# Compile for specific hardware
+edgebot compile --model model.onnx --output binary --hardware raspberry-pi
+
+# Compile for all supported targets
+edgebot compile --model model.onnx --output-dir ./bin/ --all
+
+# With optimization features
+edgebot compile --model model.onnx --output binary --release --features "tch,cuda"
+```
+
+**Options:**
+- `--model <path>`: Model file to embed (optional)
+- `--output <path>`: Output binary path
+- `--target <triple>`: Target triple (e.g., aarch64-unknown-linux-musl)
+- `--hardware <type>`: Hardware type (raspberry-pi, stm32, generic-arm)
+- `--all`: Build for all supported ARM targets
+- `--release`: Build in release mode
+- `--features <feat>`: Enable Cargo features
+- `--static-link`: Statically link all dependencies
+
+#### 2. Deploy to device
+
+Deploy compiled binaries to remote devices via SSH or serial connection.
+
+```bash
+# Deploy via SSH (using SSH agent)
+edgebot deploy --binary ./target/release/edgebot --target 192.168.1.100 --username pi
+
+# Deploy with password authentication
+edgebot deploy --binary ./edgebot --target 192.168.1.100 --username pi --password secret
+
+# Deploy to custom destination path
+edgebot deploy --binary ./edgebot --target 192.168.1.100 --username pi --destination /home/pi/apps/
+
+# Serial deployment (placeholder)
+edgebot deploy --binary ./edgebot --target /dev/ttyUSB0 --method serial
+```
+
+**Options:**
+- `--binary <path>`: Binary file to deploy (required)
+- `--target <addr>`: Target IP address or serial port (required)
+- `--method <ssh|serial>`: Deployment method (default: ssh)
+- `--destination <path>`: Remote path (default: /opt/edgebot/)
+- `--username <user>`: SSH username (required for SSH)
+- `--password <pass>`: SSH password (optional; uses SSH agent if omitted)
+
+**Note:** Serial deployment is not yet fully implemented. Use SSH for now.
+
+#### 3. Run simulation
+
+Test models in either local Webots simulation or cloud simulation server.
+
+##### Local Simulation (Webots)
+
+```bash
+# Run local simulation with a world file
+edgebot simulate --model model.ebmodel --world worlds/warehouse.wbt --runs 10
+
+# Output JSON results
+edgebot simulate --model model.ebmodel --world worlds/warehouse.wbt --json
+
+# Adjust simulation timestep
+edgebot simulate --model model.ebmodel --world worlds/warehouse.wbt --timestep 16
+```
+
+##### Cloud Simulation
+
+```bash
+# Run on cloud simulation server
+edgebot simulate --model model.ebmodel --cloud --server http://localhost:8080 --runs 100
+
+# With custom world file uploaded to server
+edgebot simulate --model model.ebmodel --world worlds/custom.wbt --cloud --server http://sim.edgebot.ai
+```
+
+**Options:**
+- `--model <path>`: Model file to test (required)
+- `--world <path>`: Webots world file (required for local, optional for cloud)
+- `--cloud`: Use cloud simulation server
+- `--server <url>`: Cloud server URL (default: http://localhost:8080)
+- `--runs <n>`: Number of simulation runs (default: 1)
+- `--json`: Output results as JSON
+- `--timestep <ms>`: Simulation timestep in milliseconds (default: 32)
+
+**Output:** Simulation metrics including total steps, runtime, average inference time.
+
+#### 4. Optimize models
+
+Optimize models for edge deployment with quantization, pruning, and layer fusion.
+
+```bash
+# Basic optimization with int8 quantization and layer fusion
+edgebot optimize --input model.onnx --output model.ebmodel --quantize int8 --fuse-layers
+
+# Advanced: fp16 quantization + magnitude pruning (50% threshold)
+edgebot optimize \
+  --input model.onnx \
+  --output model.ebmodel \
+  --quantize fp16 \
+  --prune magnitude \
+  --pruning-threshold 0.5 \
+  --device cpu
+
+# No optimization (just convert format)
+edgebot optimize --input model.onnx --output model.ebmodel --quantize none
+```
+
+**Options:**
+- `--input <path>`: Input model file (ONNX or Burn .bin) (required)
+- `--output <path>`: Output optimized model (.ebmodel) (required)
+- `--quantize <none|int8|fp16>`: Quantization method (default: none)
+- `--prune <none|magnitude|structured>`: Pruning strategy (default: none)
+- `--pruning-threshold <0.0-1.0>`: Fraction of weights to prune (default: 0.5)
+- `--fuse-layers`: Enable layer fusion (Conv+ReLU, etc.)
+- `--device <cpu|cuda>`: Target device (default: cpu)
+
+**Output:** `.ebmodel` bundle containing optimized model and metadata. The CLI reports size reduction and optimization statistics.
+
+### Development Workflow
+
+```bash
+# 1. Build and test locally
+cargo build -p edgebot-cli --release
+
+# 2. Compile model for target device
+cargo run -p edgebot-cli -- compile --model model.onnx --output model-optimized --hardware raspberry-pi
+
+# 3. Optimize the model (optional, can be separate from compile)
+cargo run -p edgebot-cli -- optimize --input model.onnx --output model.ebmodel --quantize int8
+
+# 4. Test in simulation
+cargo run -p edgebot-cli -- simulate --model model.ebmodel --world worlds/test.wbt --runs 5
+
+# 5. Deploy to device
+cargo run -p edgebot-cli -- deploy --binary target/aarch64-unknown-linux-musl/release/edgebot --target 192.168.1.100 --username pi
+```
+
+### Architecture Highlights
 
 ### Zero-Copy Memory Safety
 

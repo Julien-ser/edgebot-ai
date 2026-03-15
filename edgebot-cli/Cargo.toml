@@ -19,6 +19,10 @@ tempfile = "3.0"
 dirs = "5.0"
 colored = "2.1"
 which = "6.0"
+reqwest = { version = "0.11", features = ["json"] }
+ssh2 = "0.9"
+tar = "0.4"
+flate2 = "1.0"
 
 # Integration with other edgebot crates
 edgebot-core = { path = "../edgebot-core" }

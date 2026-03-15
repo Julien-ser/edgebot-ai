@@ -94,14 +94,16 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
             
             println!("✅ Compilation complete!");
         }
-        Commands::Deploy(_args) => {
-            eprintln!("Deploy command not yet implemented");
+        Commands::Deploy(ref args) => {
+            deploy::run_deploy(args.clone())?;
         }
-        Commands::Simulate(_args) => {
-            eprintln!("Simulate command not yet implemented");
+        Commands::Simulate(ref args) => {
+            // Simulate is async, need to block on runtime
+            let rt = tokio::runtime::Runtime::new()?;
+            rt.block_on(simulate::run_simulate(args.clone()))?;
         }
-        Commands::Optimize(_args) => {
-            eprintln!("Optimize command not yet implemented");
+        Commands::Optimize(ref args) => {
+            optimize::run_optimize(args.clone())?;
         }
     }
     
