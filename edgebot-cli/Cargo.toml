@@ -1,0 +1,35 @@
+[package]
+name = "edgebot-cli"
+version = "0.1.0"
+edition = "2021"
+description = "EdgeBot AI CLI for deployment, simulation, optimization, and cross-compilation"
+authors = ["EdgeBot AI Team"]
+license = "MIT OR Apache-2.0"
+repository = "https://github.com/edgebot-ai/edgebot-ai"
+
+[dependencies]
+clap = { version = "4.5", features = ["derive"] }
+anyhow = "1.0"
+thiserror = "1.0"
+cross = "0.2"
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+tokio = { version = "1.0", features = ["full"] }
+tempfile = "3.0"
+dirs = "5.0"
+colored = "2.1"
+which = "6.0"
+
+# Integration with other edgebot crates
+edgebot-core = { path = "../edgebot-core" }
+edgebot-sim = { path = "../edgebot-sim" }
+edgebot-wasm = { path = "../edgebot-wasm" }
+
+[dev-dependencies]
+assert_cmd = "2.0"
+tempfile = "3.0"
+
+[profile.release]
+lto = true
+codegen-units = 1
+opt-level = "z"

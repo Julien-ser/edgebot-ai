@@ -24,7 +24,8 @@ This is a Cargo workspace with multiple crates:
 | `edgebot-sim` | Simulation environment with Webots integration (headless testing) | ✅ Phase 3 (Webots integration completed) |
 | `edgebot-ros2` | ROS2 bridge for robot communication | 📦 Phase 2 |
 | `edgebot-wasm` | WebAssembly runtime for browser/IoT | ✅ Phase 2 (Runtime done) |
-| `edgebot-sim-server` | Cloud simulation service with Actix Web API | ✅ Phase 3 (Cloud service completed) |
+| `edgebot-sim-server` | Cloud simulation service with Actix Web API | ✅ Phase 3 |
+| `edgebot-cli` | Command-line interface for compilation, deployment, simulation, and optimization | 🆕 Phase 4 (In progress) |
 
 ## Prerequisites
 
@@ -68,12 +69,19 @@ cargo bench -p edgebot-core
 
 ## Current Status
 
-**Phase 2: Core SDK Development** - In progress
+**Phase 3: Simulation & Compilation** - In progress
 
-- [x] Phase 2 Task 1: Model optimizer (quantization, pruning, layer fusion)
-- [x] Phase 2 Task 2: ROS2 bridge
-- [x] Phase 2 Task 3: WebAssembly runtime ✅ COMPLETED
-- [x] Phase 2 Task 4: ModelTask trait abstraction ✅ COMPLETED
+- [x] Phase 3 Task 1: Webots simulation integration ✅ COMPLETED
+- [x] Phase 3 Task 2: Cloud simulation service ✅ COMPLETED
+- [x] Phase 3 Task 3: ARM cross-compilation toolchain ✅ COMPLETED
+- [ ] Phase 3 Task 4: Profiling & benchmarking suite (criterion)
+
+**Phase 4: Deployment & Monetization** - Starting
+
+- [ ] Phase 4 Task 1: Full EdgeBot CLI (deploy, simulate, optimize commands)
+- [ ] Phase 4 Task 2: License verification system
+- [ ] Phase 4 Task 3: Dashboard frontend
+- [ ] Phase 4 Task 4: Comprehensive documentation
 
 See [TASKS.md](TASKS.md) for complete roadmap.
 
