@@ -1,0 +1,17 @@
+[package]
+name = "edgebot-ros2"
+version = "0.1.0"
+edition = "2021"
+description = "ROS2 integration bridge for EdgeBot AI"
+license = "MIT OR Apache-2.0"
+repository = "https://github.com/edgebot-ai/edgebot-ai"
+keywords = ["ros2", "robotics", "rclrs", "middleware"]
+categories = ["science", "embedded"]
+
+[dependencies]
+rclrs = "0.3"
+thiserror = "1.0"
+serde = { version = "1.0", features = ["derive"] }
+tracing = "0.1"
+
+[dev-dependencies]

@@ -1,0 +1,19 @@
+[package]
+name = "edgebot-wasm"
+version = "0.1.0"
+edition = "2021"
+description = "WebAssembly runtime for EdgeBot AI"
+license = "MIT OR Apache-2.0"
+repository = "https://github.com/edgebot-ai/edgebot-ai"
+keywords = ["wasm", "webassembly", "edge-computing", "browser"]
+categories = ["wasm", "science"]
+
+[dependencies]
+wasm-bindgen = "0.2"
+js-sys = "0.3"
+web-sys = { version = "0.3", features = ["console"] }
+thiserror = "1.0"
+serde = { version = "1.0", features = ["derive"] }
+tracing = "0.1"
+
+[dev-dependencies]

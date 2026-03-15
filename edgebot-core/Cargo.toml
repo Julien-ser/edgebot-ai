@@ -1,0 +1,24 @@
+[package]
+name = "edgebot-core"
+version = "0.1.0"
+edition = "2021"
+description = "Core inference engine for EdgeBot AI using Burn framework"
+license = "MIT OR Apache-2.0"
+repository = "https://github.com/edgebot-ai/edgebot-ai"
+keywords = ["ai", "robotics", "edge-computing", "wasm", "inference"]
+categories = ["science", "embedded", "wasm"]
+
+[dependencies]
+burn = { version = "0.12", features = ["std"] }
+burn-import = "0.12"
+ndarray = "0.15"
+thiserror = "1.0"
+serde = { version = "1.0", features = ["derive"] }
+tracing = "0.1"
+
+[dev-dependencies]
+criterion = "0.5"
+
+[[bench]]
+name = "inference_bench"
+harness = false

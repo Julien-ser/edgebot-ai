@@ -1,0 +1,16 @@
+[package]
+name = "edgebot-sim"
+version = "0.1.0"
+edition = "2021"
+description = "Simulation environment for EdgeBot AI with Webots integration"
+license = "MIT OR Apache-2.0"
+repository = "https://github.com/edgebot-ai/edgebot-ai"
+keywords = ["simulation", "robotics", "webots", "testing"]
+categories = ["science", "embedded"]
+
+[dependencies]
+thiserror = "1.0"
+serde = { version = "1.0", features = ["derive"] }
+tracing = "0.1"
+
+[dev-dependencies]

@@ -1,0 +1,13 @@
+[workspace]
+members = [
+    "edgebot-core",
+    "edgebot-sim",
+    "edgebot-ros2",
+    "edgebot-wasm",
+]
+
+resolver = "2"
+
+[profile.release]
+lto = true
+codegen-units = 1
