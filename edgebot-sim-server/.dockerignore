@@ -1,0 +1,13 @@
+target/
+logs/
+.git/
+.gitignore
+README.md
+Cargo.lock
+**/*.pdb
+**/tests/
+**/benches/
+**/.vscode/
+**/.idea/
+**/.*.swp
+.DS_Store

@@ -24,6 +24,7 @@ This is a Cargo workspace with multiple crates:
 | `edgebot-sim` | Simulation environment with Webots integration (headless testing) | ✅ Phase 3 (Webots integration completed) |
 | `edgebot-ros2` | ROS2 bridge for robot communication | 📦 Phase 2 |
 | `edgebot-wasm` | WebAssembly runtime for browser/IoT | ✅ Phase 2 (Runtime done) |
+| `edgebot-sim-server` | Cloud simulation service with Actix Web API | ✅ Phase 3 (Cloud service completed) |
 
 ## Prerequisites
 

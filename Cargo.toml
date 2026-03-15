@@ -4,6 +4,7 @@ members = [
     "edgebot-sim",
     "edgebot-ros2",
     "edgebot-wasm",
+    "edgebot-sim-server",
 ]
 
 resolver = "2"
