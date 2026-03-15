@@ -23,7 +23,7 @@ This is a Cargo workspace with multiple crates:
 | `edgebot-core` | Core inference engine + memory safety + optimizer + tasks | 📦 Phase 2 (Optimizer done) |
 | `edgebot-sim` | Simulation environment (Webots integration) | 📦 Phase 3 |
 | `edgebot-ros2` | ROS2 bridge for robot communication | 📦 Phase 2 |
-| `edgebot-wasm` | WebAssembly runtime for browser/IoT | 📦 Phase 2 |
+| `edgebot-wasm` | WebAssembly runtime for browser/IoT | ✅ Phase 2 (Runtime done) |
 
 ## Prerequisites
 
@@ -71,7 +71,7 @@ cargo bench -p edgebot-core
 
 - [x] Phase 2 Task 1: Model optimizer (quantization, pruning, layer fusion)
 - [x] Phase 2 Task 2: ROS2 bridge
-- [ ] Phase 2 Task 3: WebAssembly runtime
+- [x] Phase 2 Task 3: WebAssembly runtime ✅ COMPLETED
 - [ ] Phase 2 Task 4: ModelTask trait abstraction
 
 See [TASKS.md](TASKS.md) for complete roadmap.
@@ -196,9 +196,144 @@ cargo run -p edgebot-ros2 --bin yolo_node -- --ros-args -p camera_topic:=/camera
 
 Note: The example currently uses a hardcoded model path `models/yolov8.onnx`. Place a suitable ONNX model in that location or modify the source code to point to your model.
 
-### WebAssembly Target
+### WebAssembly Runtime
 
-The `edgebot-wasm` crate compiles to `wasm32-unknown-unknown` for browser-based simulation and `wasm32-wasi` for edge IoT devices. Zero-copy memory interfaces ensure efficient data passing between JavaScript and Rust.
+The `edgebot-wasm` crate enables deployment of EdgeBot AI models in browser and IoT environments via WebAssembly. It provides:
+
+- **Browser support** (`wasm32-unknown-unknown`) with `wasm-bindgen` for JavaScript interop
+- **WASI support** (`wasm32-wasi`) for headless IoT devices
+- Zero-copy memory interfaces for efficient data passing between JS/Rust and WASM
+- Unified API for both targets with runtime selection
+
+#### Usage in JavaScript (Browser)
+
+```javascript
+// Import the WASM module (after building with `build-wasm.sh`)
+import init, { JsWasmRuntime } from './edgebot-wasm-browser.js';
+
+// Initialize the runtime
+await init();
+
+// Create runtime
+const runtime = new JsWasmRuntime();
+
+// Load a model (Uint8Array of .ebmodel or .onnx bytes)
+const modelBytes = await fetch('model.ebmodel').then(r => r.arrayBuffer());
+runtime.load_model('yolo', new Uint8Array(modelBytes));
+
+// Run inference
+const inputs = [{
+    name: 'input',
+    data: [/* float32 array */],
+    shape: [1, 3, 640, 640]
+}];
+const outputs = runtime.infer('yolo', inputs);
+
+console.log('Inference output:', outputs[0].data);
+```
+
+#### Usage in Rust (WASI)
+
+```rust
+use edgebot_wasm::{WasmRuntime, WasmTarget, WasmInferenceInput};
+
+fn main() -> Result<(), Box<dyn std::error::Error>> {
+    // Create WASI runtime
+    let mut runtime = WasmRuntime::new(WasmTarget::Wasi);
+
+    // Load model from file (WASI filesystem access)
+    let model_bytes = std::fs::read("/models/yolo.ebmodel")?;
+    runtime.load_model("yolo", model_bytes, None)?;
+
+    // Prepare input
+    let input = WasmInferenceInput {
+        name: "input".to_string(),
+        data: vec![0.0; 3 * 640 * 640],
+        shape: vec![1, 3, 640, 640],
+    };
+
+    // Run inference
+    let outputs = runtime.infer("yolo", &[input], None)?;
+    println!("Output shape: {:?}", outputs[0].shape);
+
+    Ok(())
+}
+```
+
+#### Building WASM Modules
+
+The `edgebot-wasm/build-wasm.sh` script builds optimized WASM binaries for both targets:
+
+```bash
+# Build browser target (default)
+./edgebot-wasm/build-wasm.sh browser
+
+# Build WASI target
+./edgebot-wasm/build-wasm.sh wasi
+
+# Build both targets
+./edgebot-wasm/build-wasm.sh all
+
+# Debug build
+./edgebot-wasm/build-wasm.sh browser --debug
+
+# With additional size optimizations
+./edgebot-wasm/build-wasm.sh browser --optimize
+```
+
+Output files are placed in `target/wasm/`:
+- `edgebot-wasm-browser.wasm` - Browser module (requires JS glue code)
+- `edgebot-wasm-wasi.wasm` - WASI standalone module
+
+#### Requirements
+
+Add to your Cargo.toml:
+```toml
+[dependencies]
+edgebot-wasm = { path = "edgebot-wasm" }
+
+# For browser builds
+[target.'cfg(target_arch = "wasm32")'.dependencies]
+wasm-bindgen = "0.2"
+```
+
+Install wasm32 targets:
+```bash
+rustup target add wasm32-unknown-unknown wasm32-wasi
+```
+
+#### API Reference
+
+**Core Types:**
+- `WasmRuntime`: Unified runtime for model loading and inference
+- `WasmTarget`: Platform target (`Browser` or `Wasi`)
+- `WasmInferenceInput`: Input tensor with name, data (Vec<f32>), and shape
+- `WasmInferenceOutput`: Inference result with name, data, and shape
+
+**Key Methods:**
+- `WasmRuntime::new(target)` - Create runtime for specific platform
+- `load_model(name, bytes)` - Load model from bytes (requires .ebmodel or supported format)
+- `infer(model_name, inputs)` - Run inference with vector of inputs
+- `list_models()` - List loaded model names
+- `unload_model(name)` - Free model resources
+
+**Browser-Specific:**
+- `JsWasmRuntime`: Web-friendly runtime (automatically selected via `#[cfg(target_arch = "wasm32")]`)
+- `new()` constructor available from JavaScript
+- Methods return `Result<..., JsValue>` for proper error handling in JS
+
+**WASI-Specific:**
+- `WasiJsRuntime::new()` - Create WASI runtime
+- `load_model_from_path(name, path)` - Load model from filesystem
+- Automatic support for WASI environment (files, stdin/stdout)
+
+#### Performance Notes
+
+- Browser target uses WGPU for GPU acceleration (via Burn's wgpu backend)
+- WASI target uses CPU-optimized backends (Autocast, Tch)
+- Zero-copy memory interfaces minimize data marshaling overhead
+- Release builds with `opt-level = "z"` produce ~50% smaller WASM binaries
+- LTO and codegen-units=1 further reduce size
 
 ## License
 
