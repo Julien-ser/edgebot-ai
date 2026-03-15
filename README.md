@@ -73,19 +73,23 @@ cargo bench -p edgebot-core -- --output-format json > benchmark_results/raw.json
 
 ## Current Status
 
-**Phase 3: Simulation & Compilation** - In progress
+**Phase 3: Simulation & Compilation** - ✅ COMPLETED
 
-- [x] Phase 3 Task 1: Webots simulation integration ✅ COMPLETED
-- [x] Phase 3 Task 2: Cloud simulation service ✅ COMPLETED
-- [x] Phase 3 Task 3: ARM cross-compilation toolchain ✅ COMPLETED
-- [x] Phase 3 Task 4: Profiling & benchmarking suite (criterion) ✅ COMPLETED
+- [x] Phase 3 Task 1: Webots simulation integration
+- [x] Phase 3 Task 2: Cloud simulation service
+- [x] Phase 3 Task 3: ARM cross-compilation toolchain
+- [x] Phase 3 Task 4: Profiling & benchmarking suite (criterion)
 
-**Phase 4: Deployment & Monetization** - In progress
+**Phase 4: Deployment & Monetization** - ✅ COMPLETED
 
-- [x] Phase 4 Task 1: EdgeBot CLI (deploy, simulate, optimize commands) ✅ COMPLETED
-- [ ] Phase 4 Task 2: License verification system
-- [ ] Phase 4 Task 3: Dashboard frontend
-- [ ] Phase 4 Task 4: Comprehensive documentation
+- [x] Phase 4 Task 1: EdgeBot CLI (deploy, simulate, optimize commands)
+- [x] Phase 4 Task 2: License verification system
+- [x] Phase 4 Task 3: Dashboard frontend
+- [x] Phase 4 Task 4: Comprehensive documentation
+
+---
+
+✅ **All planned development tasks are complete!** EdgeBot AI is feature-complete for initial release.
 
 See [TASKS.md](TASKS.md) for complete roadmap.
 
@@ -766,6 +770,36 @@ MIT OR Apache-2.0. See [LICENSE](LICENSE) for details.
 
 We welcome contributions! See [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines.
 
+## Documentation
+
+Comprehensive documentation is available as a book:
+
+- **Online**: [https://edgebot-ai.github.io/edgebot-ai/](https://edgebot-ai.github.io/edgebot-ai/)
+- **Local**: `docs/book/` (markdown source) or `cargo doc --workspace --open`
+
+The documentation covers:
+
+- Quickstart guide
+- ROS2 integration
+- WebAssembly deployment
+- Pro workflow and licensing
+- API reference
+
+### Building the Docs
+
+```bash
+# Install mdbook (for book build)
+cargo install mdbook
+
+# Build the book
+mdbook build docs/book
+
+# Serve locally
+mdbook serve docs/book --open
+```
+
+The book is automatically published to GitHub Pages on pushes to `main`.
+
 ---
 
-**Status:** Early development (Phase 1). API subject to change.
+**Status:** Initial release candidate. API stabilizing.

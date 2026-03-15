@@ -1,0 +1,59 @@
+name: Deploy Documentation
+
+on:
+  push:
+    branches: [ main, master ]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: true
+
+jobs:
+  build-and-deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Rust
+        uses: dtolnay/rust-toolchain@stable
+
+      - name: Install mdbook
+        run: cargo install mdbook
+
+      - name: Build API Documentation
+        run: |
+          cargo doc --workspace --no-deps
+          mkdir -p target/doc/_book
+          cp -r target/doc/* target/doc/_book/ 2>/dev/null || true
+
+      - name: Build Book
+        run: mdbook build docs/book
+
+      - name: Copy API docs to book
+        run: |
+          mkdir -p docs/book/api
+          if [ -d "target/doc/_book" ]; then
+            cp -r target/doc/_book/* docs/book/api/ 2>/dev/null || true
+          fi
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v4
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: 'docs/book'
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
