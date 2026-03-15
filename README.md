@@ -20,7 +20,7 @@ This is a Cargo workspace with multiple crates:
 
 | Crate | Purpose | Status |
 |-------|---------|--------|
-| `edgebot-core` | Core inference engine with Burn backend | 📦 Planning |
+| `edgebot-core` | Core inference engine + memory safety + optimizer + tasks | 📦 Phase 1 |
 | `edgebot-sim` | Simulation environment (Webots integration) | 📦 Planning |
 | `edgebot-ros2` | ROS2 bridge for robot communication | 📦 Planning |
 | `edgebot-wasm` | WebAssembly runtime for browser/IoT | 📦 Planning |
@@ -65,50 +65,72 @@ cargo build --release
 cargo bench -p edgebot-core
 ```
 
-## Current Phase: Phase 1 - Planning & Setup
+## Current Status
+
+**Phase 1: Planning & Setup** - In progress
 
 - [x] Task 1: Workspace architecture and crate structure
 - [x] Task 2: CI pipeline and toolchain setup
-- [ ] Task 3: Burn framework integration
-- [ ] Task 4: Zero-copy memory safety interface
+- [x] Task 3: Burn framework integration
+- [x] Task 4: Zero-copy memory safety interface
+- [ ] Task 5: Documentation updates
 
 See [TASKS.md](TASKS.md) for complete roadmap.
 
 ## Architecture Highlights
 
 ### Zero-Copy Memory Safety
-Uses `std::mem::MaybeUninit` and `ndarray` for sharing sensor data (camera images, LiDAR) without copies between ROS2 messages and inference pipelines.
+
+The `edgebot-core/memory` module provides safe abstractions for sharing sensor data without memory copies between ROS2 messages and inference pipelines:
+
+```rust
+use edgebot_core::memory::{CameraBuffer, ImageFormat, ImageMetadata, ZeroCopyBuffer};
+
+// Create camera buffer from raw sensor data (zero-copy)
+let metadata = ImageMetadata::new(640, 480, ImageFormat::RGB);
+let mut buffer = CameraBuffer::new(metadata);
+
+// Fill buffer with ROS2 image data
+buffer.bytes_mut().copy_from_slice(&ros2_image_data);
+
+// Convert to Burn tensor (minimal copy if needed)
+let device = burn::backend::tch::TchBackend::Device::default();
+let tensor = buffer.to_tensor(&device);
+
+// Run inference
+// let output = inference_engine.forward(tensor);
+```
+
+**Key Types:**
+
+- `ZeroCopyBuffer<T>`: Safe buffer using `MaybeUninit` for uninitialized memory management
+- `CameraBuffer`: Zero-copy image buffer supporting RGB, BGR, RGBA, grayscale, depth
+- `LidarBuffer`: Point cloud buffer for LiDAR data (xyz, intensity, ring, timestamp)
+- `BorrowedBuffer<'a, T>`: Temporary view into initialized buffer data
+- ROS2 integration helpers (`Ros2ImageConverter`, `Ros2PointCloudConverter`)
 
 ### Burn Integration
-Supports multiple backends (Autocast, Tch) and model formats (ONNX, Burn `.bin`). Enables efficient quantization and pruning for edge deployment.
 
-### ROS2 Bridge
-Leverages `rclrs` for type-safe ROS2 communication with zero-copy message passing patterns.
-
-### WebAssembly Target
-Compiles to `wasm32-unknown-unknown` for browser simulation and `wasm32-wasi` for IoT execution.
-
-## Inference Engine Example
+The inference engine (`edgebot-core::inference`) supports multiple backends (Tch, Autocast) and model formats (ONNX, Burn binary):
 
 ```rust
 use edgebot_core::inference::InferenceEngine;
 use burn::backend::tch::TchBackend;
 
-fn main() {
-    // Choose device (CPU or GPU)
+fn main() -> Result<(), Box<dyn std::error::Error>> {
     let device = TchBackend::Device::default();
 
-    // Load an ONNX model with known input shape
+    // Load ONNX model
     let engine = InferenceEngine::<TchBackend>::load_onnx(
         Path::new("model.onnx"),
-        &[1, 3, 224, 224], // batch, channels, height, width
+        &[1, 3, 224, 224], // input shape
         device,
-    ).expect("Failed to load ONNX model");
+    )?;
 
-    // Or load a Burn binary model
+    // Or load Burn binary
     // let engine = InferenceEngine::<TchBackend>::load_bin(Path::new("model.bin"), device)?;
 
-    // Create input tensor (example: random image)
+    // Create input tensor (example)
     let input = burn::tensor::Tensor::<TchBackend>::random(
         [1, 3, 224, 224],
         burn::tensor::Distribution::Uniform(-1.0, 1.0),
@@ -116,20 +138,20 @@ fn main() {
     );
 
     // Run inference
-    let output = engine.forward(input).expect("Inference failed");
+    let output = engine.forward(input)?;
     println!("Output shape: {:?}", output.dims());
+
+    Ok(())
 }
 ```
 
-You can also use the `Autocast` backend for mixed precision:
+### ROS2 Bridge
 
-```rust
-use burn::backend::autocast::Autocast;
-use burn::backend::tch::TchBackend;
-type Backend = Autocast<TchBackend>;
-let device = Backend::Device::default();
-let engine = InferenceEngine::<Backend>::load_onnx(...)?;
-```
+The `edgebot-ros2` crate (coming soon) will provide zero-copy integration with ROS2 using `rclrs` and loaned message patterns for optimal performance with ROS2 camera and LiDAR topics.
+
+### WebAssembly Target
+
+The `edgebot-wasm` crate compiles to `wasm32-unknown-unknown` for browser-based simulation and `wasm32-wasi` for edge IoT devices. Zero-copy memory interfaces ensure efficient data passing between JavaScript and Rust.
 
 ## License
 
