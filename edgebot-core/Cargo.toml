@@ -26,6 +26,9 @@ std_msgs = "0.3"
 
 [dev-dependencies]
 criterion = "0.5"
+rand = "0.8"
+libc = "0.2"
+serde_json = "1.0"
 
 [[bench]]
 name = "inference_bench"

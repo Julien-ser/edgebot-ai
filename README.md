@@ -65,6 +65,10 @@ cargo build --release
 
 # Run benchmarks (requires criterion)
 cargo bench -p edgebot-core
+
+# Generate JSON report for pro tier optimization
+cargo bench -p edgebot-core -- --output-format json > benchmark_results/raw.json
+# The pro tier optimization report is auto-generated at benchmark_results/inference_pro_report.json
 ```
 
 ## Current Status
@@ -74,7 +78,7 @@ cargo bench -p edgebot-core
 - [x] Phase 3 Task 1: Webots simulation integration ✅ COMPLETED
 - [x] Phase 3 Task 2: Cloud simulation service ✅ COMPLETED
 - [x] Phase 3 Task 3: ARM cross-compilation toolchain ✅ COMPLETED
-- [ ] Phase 3 Task 4: Profiling & benchmarking suite (criterion)
+- [x] Phase 3 Task 4: Profiling & benchmarking suite (criterion) ✅ COMPLETED
 
 **Phase 4: Deployment & Monetization** - Starting
 
