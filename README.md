@@ -236,24 +236,86 @@ edgebot optimize --input model.onnx --output model.ebmodel --quantize none
 
 **Output:** `.ebmodel` bundle containing optimized model and metadata. The CLI reports size reduction and optimization statistics.
 
-### Development Workflow
+### Usage
+
+**Free Tier:**
+- All core SDK features are free and open source (MIT/Apache-2.0)
+- Local simulation with Webots is unlimited
+- Basic model optimization (quantization none, no pruning)
+- Cross-compilation for ARM targets
+
+**Pro Tier ($29/month):**
+- Cloud simulation with batch runs (100+ scenarios)
+- Advanced model optimization: int8/fp16 quantization, pruning, layer fusion
+- Priority support and custom integrations
+- Offline activation tokens available
+
+To enable pro features, set the `EDGEBOT_LICENSE_KEY` environment variable:
 
 ```bash
-# 1. Build and test locally
-cargo build -p edgebot-cli --release
-
-# 2. Compile model for target device
-cargo run -p edgebot-cli -- compile --model model.onnx --output model-optimized --hardware raspberry-pi
-
-# 3. Optimize the model (optional, can be separate from compile)
-cargo run -p edgebot-cli -- optimize --input model.onnx --output model.ebmodel --quantize int8
-
-# 4. Test in simulation
-cargo run -p edgebot-cli -- simulate --model model.ebmodel --world worlds/test.wbt --runs 5
-
-# 5. Deploy to device
-cargo run -p edgebot-cli -- deploy --binary target/aarch64-unknown-linux-musl/release/edgebot --target 192.168.1.100 --username pi
+export EDGEBOT_LICENSE_KEY="your_license_key_here"
 ```
+
+The license key is an Ed25519 signed token verified offline. Contact sales@edgebot.ai to obtain a pro license.
+
+## Monetization & License Verification
+
+EdgeBot AI uses a freemium model:
+
+- **Free Core SDK**: All core inference, memory safety, ROS2 integration, and WebAssembly compilation remain open source under MIT/Apache-2.0.
+- **Pro Features**: Cloud simulation and advanced optimization require a paid subscription.
+
+### License Verification System
+
+The `edgebot-licensing` crate implements Ed25519-based license verification:
+
+- License keys are signed by EdgeBot AI's private key
+- Supports offline activation (no phone home)
+- Includes expiry dates and feature flags
+- Fast cryptographic verification using `ed25519-dalek`
+
+**Command-line usage:**
+
+```bash
+# Cloud simulation requires pro license
+edgebot simulate --model model.ebmodel --cloud --server https://sim.edgebot.ai
+
+# Model optimization requires pro license
+edgebot optimize --input model.onnx --output model.ebmodel --quantize int8 --fuse-layers
+```
+
+If no valid license is found, the commands will return an error with instructions.
+
+**Environment Variable:**
+
+Set `EDGEBOT_LICENSE_KEY` with your license key:
+
+```bash
+export EDGEBOT_LICENSE_KEY="signature_base64:payload_base64"
+```
+
+The license key format is two base64-encoded parts separated by a colon:
+- `signature`: Ed25519 signature over the payload
+- `payload`: JSON containing customer_id, timestamp, features, and optional expiry
+
+**Development License:**
+
+During development, you can generate test licenses using the `generate_dev_license` function (only available in debug builds):
+
+```rust
+#[cfg(debug_assertions)]
+let license = edgebot_licensing::generate_dev_license(
+    "test_customer",
+    vec!["cloud_sim", "optimization"],
+    "your_secret_key_base64"
+)?;
+```
+
+### Obtaining a Pro License
+
+Visit https://edgebot.ai/pricing to subscribe. After payment, you'll receive a license key via email. The key is valid for the subscription period and can be used on multiple machines.
+
+For enterprise deployments, offline activation tokens and custom feature flags are available. Contact sales@edgebot.ai.
 
 ### Architecture Highlights
 
