@@ -21,7 +21,7 @@ This is a Cargo workspace with multiple crates:
 | Crate | Purpose | Status |
 |-------|---------|--------|
 | `edgebot-core` | Core inference engine + memory safety + optimizer + tasks | ✅ Phase 2 (Core SDK completed) |
-| `edgebot-sim` | Simulation environment (Webots integration) | 📦 Phase 3 |
+| `edgebot-sim` | Simulation environment with Webots integration (headless testing) | ✅ Phase 3 (Webots integration completed) |
 | `edgebot-ros2` | ROS2 bridge for robot communication | 📦 Phase 2 |
 | `edgebot-wasm` | WebAssembly runtime for browser/IoT | ✅ Phase 2 (Runtime done) |
 
@@ -179,6 +179,103 @@ cargo build -p edgebot-core --bin edgebot-optimize --release
 - `--device`: target device (cpu/cuda)
 
 **Optimization Stats:** The CLI prints size reduction, speedup estimates, and saves detailed stats in the .ebmodel bundle.
+
+### Webots Simulation
+
+The `edgebot-sim` crate provides integration with the Webots robotics simulator for testing AI models on virtual robots in a controlled environment. It offers a safe, Python-like Rust API and supports headless (no-GUI) mode for automated testing and CI.
+
+#### Features
+
+- **Supervisor control**: Launch simulations, spawn robots, and manipulate the scene.
+- **Sensor access**: Read data from cameras, LiDAR, distance sensors, IMU, GPS, etc.
+- **Headless mode**: Run simulations without a display, perfect for servers and CI.
+- **Remote control**: Connect to a running Webots instance or launch a new one directly from Rust.
+- **Zero-copy**: Efficient memory access to sensor data buffers.
+
+#### Usage Example
+
+```rust
+use edgebot_sim::webots::{Supervisor, Robot, Device, WebotsError};
+
+fn main() -> Result<(), WebotsError> {
+    // Launch Webots in headless mode with a world file
+    let supervisor = Supervisor::launch("worlds/warehouse.wbt", true)?;
+
+    // Spawn a robot from a prototype
+    let robot = supervisor.spawn_robot("prototypes/turtlebot3.proto", "test_bot")?;
+
+    // Step simulation to allow robot to initialize
+    supervisor.step(32)?;
+
+    // Get devices
+    let camera = robot.get_device("camera")?.as_camera()?;
+    let lidar = robot.get_device("lidar")?.as_lidar()?;
+    let wheel_motor = robot.get_device("wheel_left")?;
+
+    // Enable sensors with appropriate sampling period
+    camera.enable(32);
+    lidar.enable(32);
+
+    // Main simulation loop
+    for _ in 0..1000 {
+        supervisor.step(32)?;
+
+        // Retrieve camera image
+        let image = camera.get_image()?; // RGBA buffer
+        // Run inference with edgebot-core here...
+
+        // Retrieve lidar scan
+        let ranges = lidar.get_range_image()?; // Vec<f32>
+
+        // Simple obstacle avoidance example
+        if ranges.iter().any(|&r| r < 0.3) {
+            // Stop or reverse
+        }
+    }
+
+    // Clean shutdown
+    supervisor.terminate()?;
+    Ok(())
+}
+```
+
+#### Headless Mode
+
+Headless mode runs Webots without a graphical interface, ideal for automated testing and CI pipelines. Set the `WEBOTS_HOME` environment variable to your Webots installation directory:
+
+```bash
+export WEBOTS_HOME=/usr/local/webots
+cargo run --bin my_simulation_test
+```
+
+The `Supervisor::launch` function automatically starts Webots with `--batch` and `--no-rendering` flags.
+
+#### Remote Control
+
+You can also connect to an already running Webots instance (with remote control enabled on port 1234):
+
+```rust
+let supervisor = Supervisor::connect("localhost", 1234)?;
+```
+
+#### API Reference
+
+Key types:
+- `Supervisor`: Main simulation controller. Provides `spawn_robot`, `step`, `get_root`, `load_world`, etc.
+- `Robot`: Handle to a robot in the scene. Provides `get_device`, `get_node`, etc.
+- `Device`: Base device; can be cast to specific device types (`as_camera`, `as_lidar`, etc.).
+- `Node`: Scene tree node for robot and object manipulation.
+- `Field`: Access to node fields (position, rotation, children, etc.).
+
+Common methods:
+- `Supervisor::launch(world_path, headless)` -> Launch Webots and connect.
+- `Supervisor::spawn_robot(proto_url, name)` -> Create a new robot from prototype.
+- `Supervisor::step(ms)` -> Advance simulation.
+- `Device::enable(sampling_period)` -> Start sampling a sensor.
+- `Camera::get_image()` -> Get RGBA image bytes.
+- `Lidar::get_range_image()` -> Get distance measurements.
+
+For a full list of methods, see the API documentation or the source code in `edgebot-sim/src/webots.rs`.
 
 ### ROS2 Bridge
 
