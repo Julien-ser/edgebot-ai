@@ -88,6 +88,49 @@ Leverages `rclrs` for type-safe ROS2 communication with zero-copy message passin
 ### WebAssembly Target
 Compiles to `wasm32-unknown-unknown` for browser simulation and `wasm32-wasi` for IoT execution.
 
+## Inference Engine Example
+
+```rust
+use edgebot_core::inference::InferenceEngine;
+use burn::backend::tch::TchBackend;
+
+fn main() {
+    // Choose device (CPU or GPU)
+    let device = TchBackend::Device::default();
+
+    // Load an ONNX model with known input shape
+    let engine = InferenceEngine::<TchBackend>::load_onnx(
+        Path::new("model.onnx"),
+        &[1, 3, 224, 224], // batch, channels, height, width
+        device,
+    ).expect("Failed to load ONNX model");
+
+    // Or load a Burn binary model
+    // let engine = InferenceEngine::<TchBackend>::load_bin(Path::new("model.bin"), device)?;
+
+    // Create input tensor (example: random image)
+    let input = burn::tensor::Tensor::<TchBackend>::random(
+        [1, 3, 224, 224],
+        burn::tensor::Distribution::Uniform(-1.0, 1.0),
+        engine.device(),
+    );
+
+    // Run inference
+    let output = engine.forward(input).expect("Inference failed");
+    println!("Output shape: {:?}", output.dims());
+}
+```
+
+You can also use the `Autocast` backend for mixed precision:
+
+```rust
+use burn::backend::autocast::Autocast;
+use burn::backend::tch::TchBackend;
+type Backend = Autocast<TchBackend>;
+let device = Backend::Device::default();
+let engine = InferenceEngine::<Backend>::load_onnx(...)?;
+```
+
 ## License
 
 MIT OR Apache-2.0. See [LICENSE](LICENSE) for details.
