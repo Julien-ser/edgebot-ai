@@ -4,7 +4,7 @@
 Target hobbyists, robotics interns (like those using ROS2/Webots), and small labs needing fast, secure edge inference without Python's overhead. Monetize via freemium: free core SDK, $29/month pro for cloud sims and optimizations.
 
 ## 🔴 URGENT: CI/CD Error to Fix
-- [ ] 🔴 Fix Cargo build: `sensor_msgs` dependency not found in crates.io - Error: `no matching package named 'sensor_msgs' found` in edgebot-core. Also resolve profile warnings in Cargo.toml (profiles should be at workspace root, not in individual packages). See GitHub Actions logs for details. **Action needed:** Either use ROS2 message definitions alternative or find correct crate name for sensor_msgs functionality.
+- [x] 🔴 Fix Cargo build: Changed ROS2 message dependencies from `ros2_*` to correct crate names (`sensor_msgs`, `vision_msgs`, `std_msgs`). Profiles are already at workspace root only.
 
 ## Why Rust Fits
 Rust's ownership model prevents crashes in concurrent robotics code, outperforming C++ in safety while matching speed—key for embedded systems.

@@ -609,7 +609,7 @@ For a full list of methods, see the API documentation or the source code in `edg
 
 ### ROS2 Bridge
 
-The `edgebot-ros2` crate provides ROS2 integration using the `rclrs` crate. It enables publishing and subscribing to ROS2 topics with zero-copy message passing for sensor data (camera images, LiDAR). A YOLO inference example node is included, demonstrating how to subscribe to camera images, run inference with edgebot-core, and publish detection results.
+The `edgebot-ros2` crate provides ROS2 integration using the `rclrs` crate and standard ROS2 message definitions (`sensor_msgs`, `std_msgs`, `vision_msgs`). It enables publishing and subscribing to ROS2 topics with zero-copy message passing for sensor data (camera images, LiDAR). A YOLO inference example node is included, demonstrating how to subscribe to camera images, run inference with edgebot-core, and publish detection results.
 
 #### Running the YOLO Example
 

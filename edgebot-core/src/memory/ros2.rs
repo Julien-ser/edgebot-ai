@@ -19,7 +19,7 @@
 
 use super::{BorrowedBuffer, CameraBuffer, ImageFormat, ImageMetadata, LidarBuffer, PointFormat};
 use std::marker::PhantomData;
-use ros2_sensor_msgs::msg::Image;
+use sensor_msgs::msg::Image;
 
 /// Trait for types that can be created from ROS2 sensor messages with zero-copy.
 ///

@@ -9,9 +9,9 @@ use edgebot_core::memory::camera::{CameraBuffer, ImageFormat, ImageMetadata};
 use std::sync::Arc;
 use std::path::Path;
 
-use ros2_sensor_msgs::msg::Image as Ros2Image;
-use ros2_vision_msgs::msg::Detection2DArray as Ros2Detections;
-use ros2_std_msgs::msg::Header;
+use sensor_msgs::msg::Image as Ros2Image;
+use vision_msgs::msg::Detection2DArray as Ros2Detections;
+use std_msgs::msg::Header;
 
 use burn::backend::tch::TchBackend;
 use burn::tensor::Tensor;
