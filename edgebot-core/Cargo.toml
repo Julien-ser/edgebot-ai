@@ -12,7 +12,7 @@ categories = ["science", "embedded", "wasm"]
 burn = { version = "0.13.0", features = ["std"] }
 burn-import = "0.13"
 burn-tch = "0.13"
-bincode = { version = "2", features = ["serde"] }
+bincode = "1"
 ndarray = "0.15"
 thiserror = "1.0"
 serde = { version = "1.0", features = ["derive"] }
