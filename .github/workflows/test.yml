@@ -31,17 +31,35 @@ jobs:
           ~/.cargo/git
           target/
         key: ${{ runner.os }}-cargo-${{ matrix.rust-version }}-${{ hashFiles('**/Cargo.lock') }}
+    - name: Install ROS2
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y curl gnupg2
+        curl -s https://raw.githubusercontent.com/ros/rosdistro/master/ros.key | sudo apt-key add -
+        sudo sh -c 'echo "deb [arch=$(dpkg --print-architecture)] http://packages.ros.org/ros/ubuntu $(lsb_release -cs) main" > /etc/apt/sources.list.d/ros2-latest.list'
+        sudo apt-get update
+        sudo apt-get install -y ros-humble-ros-base
     - name: Build workspace
-      run: cargo build --workspace --all-targets --all-features
+      run: |
+        source /opt/ros/humble/setup.bash
+        cargo build --workspace --all-targets --all-features
     - name: Run clippy
       continue-on-error: true
-      run: cargo clippy --workspace --all-targets --all-features -- -D warnings
+      run: |
+        source /opt/ros/humble/setup.bash
+        cargo clippy --workspace --all-targets --all-features -- -D warnings
     - name: Run tests
       continue-on-error: true
-      run: cargo test --workspace --all-features
+      run: |
+        source /opt/ros/humble/setup.bash
+        cargo test --workspace --all-features
     - name: Check formatting
       continue-on-error: true
-      run: cargo fmt --all -- --check
+      run: |
+        source /opt/ros/humble/setup.bash
+        cargo fmt --all -- --check
     - name: Build documentation
       continue-on-error: true
-      run: cargo doc --workspace --no-deps
+      run: |
+        source /opt/ros/humble/setup.bash
+        cargo doc --workspace --no-deps

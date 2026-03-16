@@ -1,0 +1,14 @@
+/home/julien/Desktop/Free-Wiggum-opencode/projects/edgebot-ai/target/debug/deps/serde-b05dd47e6e492a81.d: /home/julien/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serde-1.0.228/src/lib.rs /home/julien/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serde-1.0.228/src/integer128.rs /home/julien/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serde-1.0.228/src/private/mod.rs /home/julien/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serde-1.0.228/src/private/de.rs /home/julien/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serde-1.0.228/src/private/ser.rs /home/julien/Desktop/Free-Wiggum-opencode/projects/edgebot-ai/target/debug/build/serde-e9ca77665a2e959c/out/private.rs
+
+/home/julien/Desktop/Free-Wiggum-opencode/projects/edgebot-ai/target/debug/deps/libserde-b05dd47e6e492a81.rlib: /home/julien/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serde-1.0.228/src/lib.rs /home/julien/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serde-1.0.228/src/integer128.rs /home/julien/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serde-1.0.228/src/private/mod.rs /home/julien/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serde-1.0.228/src/private/de.rs /home/julien/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serde-1.0.228/src/private/ser.rs /home/julien/Desktop/Free-Wiggum-opencode/projects/edgebot-ai/target/debug/build/serde-e9ca77665a2e959c/out/private.rs
+
+/home/julien/Desktop/Free-Wiggum-opencode/projects/edgebot-ai/target/debug/deps/libserde-b05dd47e6e492a81.rmeta: /home/julien/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serde-1.0.228/src/lib.rs /home/julien/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serde-1.0.228/src/integer128.rs /home/julien/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serde-1.0.228/src/private/mod.rs /home/julien/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serde-1.0.228/src/private/de.rs /home/julien/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serde-1.0.228/src/private/ser.rs /home/julien/Desktop/Free-Wiggum-opencode/projects/edgebot-ai/target/debug/build/serde-e9ca77665a2e959c/out/private.rs
+
+/home/julien/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serde-1.0.228/src/lib.rs:
+/home/julien/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serde-1.0.228/src/integer128.rs:
+/home/julien/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serde-1.0.228/src/private/mod.rs:
+/home/julien/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serde-1.0.228/src/private/de.rs:
+/home/julien/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serde-1.0.228/src/private/ser.rs:
+/home/julien/Desktop/Free-Wiggum-opencode/projects/edgebot-ai/target/debug/build/serde-e9ca77665a2e959c/out/private.rs:
+
+# env-dep:OUT_DIR=/home/julien/Desktop/Free-Wiggum-opencode/projects/edgebot-ai/target/debug/build/serde-e9ca77665a2e959c/out

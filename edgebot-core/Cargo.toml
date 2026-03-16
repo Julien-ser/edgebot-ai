@@ -9,9 +9,10 @@ keywords = ["ai", "robotics", "edge-computing", "wasm", "inference"]
 categories = ["science", "embedded", "wasm"]
 
 [dependencies]
-burn = { version = "0.12.1", features = ["std"] }
-burn-import = "0.12"
-burn-tch = "0.12"
+burn = { version = "0.13.0", features = ["std"] }
+burn-import = "0.13"
+burn-tch = "0.13"
+bincode = { version = "2", features = ["serde"] }
 ndarray = "0.15"
 thiserror = "1.0"
 serde = { version = "1.0", features = ["derive"] }

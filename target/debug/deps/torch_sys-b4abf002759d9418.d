@@ -1,0 +1,11 @@
+/home/julien/Desktop/Free-Wiggum-opencode/projects/edgebot-ai/target/debug/deps/torch_sys-b4abf002759d9418.d: /home/julien/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/torch-sys-0.15.0/src/lib.rs /home/julien/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/torch-sys-0.15.0/src/cuda.rs /home/julien/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/torch-sys-0.15.0/src/io.rs /home/julien/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/torch-sys-0.15.0/src/traits.rs /home/julien/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/torch-sys-0.15.0/src/c_generated.rs
+
+/home/julien/Desktop/Free-Wiggum-opencode/projects/edgebot-ai/target/debug/deps/libtorch_sys-b4abf002759d9418.rlib: /home/julien/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/torch-sys-0.15.0/src/lib.rs /home/julien/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/torch-sys-0.15.0/src/cuda.rs /home/julien/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/torch-sys-0.15.0/src/io.rs /home/julien/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/torch-sys-0.15.0/src/traits.rs /home/julien/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/torch-sys-0.15.0/src/c_generated.rs
+
+/home/julien/Desktop/Free-Wiggum-opencode/projects/edgebot-ai/target/debug/deps/libtorch_sys-b4abf002759d9418.rmeta: /home/julien/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/torch-sys-0.15.0/src/lib.rs /home/julien/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/torch-sys-0.15.0/src/cuda.rs /home/julien/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/torch-sys-0.15.0/src/io.rs /home/julien/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/torch-sys-0.15.0/src/traits.rs /home/julien/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/torch-sys-0.15.0/src/c_generated.rs
+
+/home/julien/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/torch-sys-0.15.0/src/lib.rs:
+/home/julien/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/torch-sys-0.15.0/src/cuda.rs:
+/home/julien/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/torch-sys-0.15.0/src/io.rs:
+/home/julien/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/torch-sys-0.15.0/src/traits.rs:
+/home/julien/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/torch-sys-0.15.0/src/c_generated.rs:
