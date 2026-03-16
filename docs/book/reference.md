@@ -38,7 +38,7 @@ pub struct CameraBuffer {
 
 impl CameraBuffer {
     pub fn new(metadata: ImageMetadata) -> Self
-    pub fn from_ros_image(metadata: ImageMetadata, msg: &sensor_msgs::msg::Image) -> Self
+    pub fn from_ros_image(metadata: ImageMetadata, msg: &ros2_sensor_msgs::msg::Image) -> Self
     pub fn bytes(&self) -> &[u8]
     pub fn bytes_mut(&mut self) -> &mut [u8]
     pub fn to_tensor(&self, device: &D) -> Tensor<B>
@@ -57,7 +57,7 @@ pub struct LidarBuffer {
 }
 
 impl LidarBuffer {
-    pub fn from_ros_pointcloud(msg: &sensor_msgs::msg::PointCloud2) -> Self
+    pub fn from_ros_pointcloud(msg: &ros2_sensor_msgs::msg::PointCloud2) -> Self
     pub fn points(&self) -> impl Iterator<Item = Point3D<f32>>
     pub fn to_tensor(&self, device: &D) -> Tensor<B>
 }
@@ -134,8 +134,8 @@ pub mod ros2 {
     pub struct Ros2PointCloudConverter;
 
     impl Ros2ImageConverter {
-        pub fn to_camera_buffer(msg: &sensor_msgs::msg::Image) -> CameraBuffer;
-        pub fn from_camera_buffer(buffer: &CameraBuffer, msg: &mut sensor_msgs::msg::Image);
+        pub fn to_camera_buffer(msg: &ros2_sensor_msgs::msg::Image) -> CameraBuffer;
+        pub fn from_camera_buffer(buffer: &CameraBuffer, msg: &mut ros2_sensor_msgs::msg::Image);
     }
 }
 ```

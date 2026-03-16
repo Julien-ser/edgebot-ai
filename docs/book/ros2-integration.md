@@ -56,7 +56,7 @@ cargo run -p edgebot-ros2 --bin yolo_node -- --ros-args -p camera_topic:=/my_cam
 
 The node uses the following ROS2 message types:
 
-- Input: `sensor_msgs/msg/Image` (camera images)
+- Input: `ros2_sensor_msgs/msg/Image` (camera images)
 - Output: `vision_msgs/msg/Detection2DArray` (object detections)
 
 ### Node Parameters
@@ -93,7 +93,7 @@ use edgebot_core::inference::InferenceEngine;
 use burn::backend::tch::TchBackend;
 
 // Assume you have ROS2 image data (from rclrs message)
-fn process_image(ros2_image: &sensor_msgs::msg::Image) -> Result<(), Box<dyn std::error::Error>> {
+fn process_image(ros2_image: &ros2_sensor_msgs::msg::Image) -> Result<(), Box<dyn std::error::Error>> {
     // Create metadata from ROS2 image
     let metadata = ImageMetadata::new(
         ros2_image.width as usize,
@@ -139,7 +139,7 @@ fn process_image(ros2_image: &sensor_msgs::msg::Image) -> Result<(), Box<dyn std
 ```rust
 use edgebot_core::memory::{LidarBuffer, PointCloudFormat};
 
-fn process_lidar(point_cloud: &sensor_msgs::msg::PointCloud2) {
+fn process_lidar(point_cloud: &ros2_sensor_msgs::msg::PointCloud2) {
     let buffer = LidarBuffer::from_ros_pointcloud(point_cloud);
 
     // Access point data efficiently
@@ -179,7 +179,7 @@ use burn::backend::tch::TchBackend;
 
 struct InferenceNode {
     engine: InferenceEngine<TchBackend>,
-    camera_sub: rclrs::Subscription<sensor_msgs::msg::Image>,
+    camera_sub: rclrs::Subscription<ros2_sensor_msgs::msg::Image>,
     detection_pub: rclrs::Publisher<vision_msgs::msg::Detection2DArray>,
 }
 
@@ -188,7 +188,7 @@ impl InferenceNode {
         let ctx = RclRust::get_instance();
         let node = ctx.create_node("inference_node").unwrap();
 
-        let camera_sub = node.create_subscription::<sensor_msgs::msg::Image>(
+        let camera_sub = node.create_subscription::<ros2_sensor_msgs::msg::Image>(
             "camera",
             |msg| {
                 // Callback: process image
@@ -205,7 +205,7 @@ impl InferenceNode {
         Self { engine, camera_sub, detection_pub }
     }
 
-    fn process_image(&self, msg: &sensor_msgs::msg::Image) {
+    fn process_image(&self, msg: &ros2_sensor_msgs::msg::Image) {
         // Zero-copy conversion
         let tensor = CameraBuffer::from_ros_image(msg).to_tensor(&self.engine.device());
 
@@ -217,7 +217,7 @@ impl InferenceNode {
         self.detection_pub.publish(&detections).unwrap();
     }
 
-    fn decode_output(&self, output: burn::tensor::Tensor<TchBackend>) -> vision_msgs::msg::Detection2DArray {
+    fn decode_output(&self, output: burn::tensor::Tensor<TchBackend>) -> ros2_vision_msgs::msg::Detection2DArray {
         // Implement decoding logic
         unimplemented!()
     }
