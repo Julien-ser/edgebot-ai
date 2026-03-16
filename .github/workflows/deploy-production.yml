@@ -58,7 +58,7 @@ jobs:
     - name: Build verification
       run: |
         pip install build
-        python -m build || true
+        python -m build
 
   approval:
     needs: pre-deployment-checks
@@ -124,8 +124,8 @@ jobs:
         git config --local user.email "github-actions[bot]@github.com"
         git config --local user.name "github-actions[bot]"
         git add .deployments/
-        git commit -m "chore: production deployment ${{ github.run_id }} - v${{ github.event.inputs.version }}" || true
-        git push || true
+        git commit -m "chore: production deployment ${{ github.run_id }} - v${{ github.event.inputs.version }}"
+        git push
     
     - name: Create release notes
       uses: actions/github-script@v7
@@ -171,15 +171,15 @@ jobs:
             owner: context.repo.owner,
             repo: context.repo.repo,
             title: `${statusEmoji} Production Deployment ${{ github.event.inputs.version }}`,
-            body: `## Deployment Summary
+             body: `## Deployment Summary
+             
+            **Status**: ${deploymentStatus.toUpperCase()}
+            **Version**: ${{ github.event.inputs.version }}
+            **Environment**: ${{ github.event.inputs.environment }}
+            **Deployed By**: ${{ github.actor }}
+            **Timestamp**: $(date -u +%Y-%m-%dT%H:%M:%SZ)
 
-**Status**: ${deploymentStatus.toUpperCase()}
-**Version**: ${{ github.event.inputs.version }}
-**Environment**: ${{ github.event.inputs.environment }}
-**Deployed By**: ${{ github.actor }}
-**Timestamp**: $(date -u +%Y-%m-%dT%H:%M:%SZ)
-
-[View Details](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }})
+            [View Details](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }})
             `,
             labels: ['deployment', '${{ github.event.inputs.environment }}']
           })
