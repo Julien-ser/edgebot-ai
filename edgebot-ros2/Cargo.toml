@@ -13,9 +13,7 @@ rclrs = "0.3"
 thiserror = "1.0"
 serde = { version = "1.0", features = ["derive"] }
 tracing = "0.1"
-    edgebot-core = { path = "../edgebot-core" }
-    sensor_msgs = "0.9"
-    vision_msgs = "0.9"
-    std_msgs = "0.9"
+edgebot-core = { path = "../edgebot-core" }
+# ROS2 message bindings will use type-safe wrappers via rclrs instead of external crate dependencies
 
 [dev-dependencies]

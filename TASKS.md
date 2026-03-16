@@ -6,6 +6,9 @@ Target hobbyists, robotics interns (like those using ROS2/Webots), and small lab
 ## 🔴 URGENT: CI/CD Error to Fix
 - [x] 🔴 Fix Cargo build: Changed ROS2 message dependencies from `ros2_*` to correct crate names (`sensor_msgs`, `vision_msgs`, `std_msgs`). Profiles are already at workspace root only.
 
+## ⚡ Post-Fix Validation
+- [ ] ✅ Verify GitHub Actions CI is passing - Run `cargo build` and `cargo test` locally to confirm all builds succeed. Check GitHub Actions to see all test workflows pass (no failures/cancellations). Update project status in README.md if CI is green.
+
 ## Why Rust Fits
 Rust's ownership model prevents crashes in concurrent robotics code, outperforming C++ in safety while matching speed—key for embedded systems.
 

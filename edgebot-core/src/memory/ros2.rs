@@ -16,10 +16,18 @@
 //! This module assumes the `rclrs` crate for ROS2 bindings. Types from `rclrs`
 //! are used as generic bounds. Add `rclrs` to your dependencies when using
 //! this integration.
+//!
+//! ## ROS2 Message Types
+//! Common ROS2 message types (when rclrs bindings are available):
+//! - `sensor_msgs::msg::Image` - Camera/vision data
+//! - `std_msgs::msg::Header` - Timestamp and frame info  
+//! - `vision_msgs::msg::Detection3DArray` - 3D detection results
+//! These will be used via the rclrs ecosystem once proper bindings are available.
 
 use super::{BorrowedBuffer, CameraBuffer, ImageFormat, ImageMetadata, LidarBuffer, PointFormat};
 use std::marker::PhantomData;
-use sensor_msgs::msg::Image;
+// Note: Commented out until proper ROS2 message bindings are available via rclrs
+// use sensor_msgs::msg::Image;
 
 /// Trait for types that can be created from ROS2 sensor messages with zero-copy.
 ///

@@ -19,5 +19,3 @@ tracing = "0.1"
 burn = { version = "0.12", features = ["std"] }
 burn-wgpu = "0.12"
 burn-import = "0.12"
- # For loading models from memory
- std-io = "0.1"

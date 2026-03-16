@@ -42,8 +42,8 @@ use std::path::Path;
 use std::process::Command;
 use thiserror::Error;
 
-/// Re-export of the `webots-sys` crate for FFI functions and types.
-extern crate webots_sys as ffi;
+/// Re-export of the `webots` crate for FFI functions and types.
+extern crate webots as ffi;
 
 /// Webots-specific error type.
 #[derive(Error, Debug)]
