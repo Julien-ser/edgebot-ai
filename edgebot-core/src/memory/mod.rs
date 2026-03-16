@@ -40,6 +40,7 @@ pub mod buffer;
 pub mod camera;
 pub mod lidar;
 pub mod tensor;
+#[cfg(feature = "ros2")]
 pub mod ros2;
 
 // Re-export key types for convenient access
@@ -47,4 +48,5 @@ pub use buffer::{ZeroCopyBuffer, BufferError, BorrowedBuffer};
 pub use camera::{CameraBuffer, ImageFormat, ImageMetadata};
 pub use lidar::{LidarBuffer, PointCloud, Point};
 pub use tensor::{IntoTensor, TensorConverter};
+#[cfg(feature = "ros2")]
 pub use ros2::{Ros2Converter, Ros2Message};

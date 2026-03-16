@@ -2372,6 +2372,7 @@ dependencies = [
  "burn 0.13.2",
  "burn-import 0.13.2",
  "burn-tch 0.13.2",
+ "burn-wgpu 0.13.2",
  "clap 4.6.0",
  "criterion",
  "env_logger 0.10.2",

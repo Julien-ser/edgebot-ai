@@ -24,10 +24,11 @@
 //! - `timestamp`: Unix timestamp (seconds)
 //! - `features`: Comma-separated feature list (e.g., "cloud_sim,optimization")
 
-use ed25519_dalek::{Signature, Signer, Verifier, PublicKey, SecretKey};
+use ed25519_dalek::{Signature, Signer, Verifier, VerifyingKey, SigningKey};
 use serde::{Deserialize, Serialize};
 use std::env;
 use thiserror::Error;
+use time::macros::format_description;
 
 /// Error types for licensing operations
 #[derive(Error, Debug)]
@@ -71,11 +72,11 @@ const PUBLIC_KEY_BASE64: &str = "YOUR_PUBLIC_KEY_HERE"; // TODO: Replace with ac
 /// - Loaded from a secure system location
 /// - Embedded at build time via build script
 /// - Fetched from a trusted server on first run
-fn get_public_key() -> Result<PublicKey, LicenseError> {
+fn get_public_key() -> Result<VerifyingKey, LicenseError> {
     let bytes = base64::decode(PUBLIC_KEY_BASE64)
         .map_err(|e| LicenseError::InvalidFormat(format!("Base64 decode failed: {}", e)))?;
     
-    PublicKey::from_bytes(&bytes)
+    VerifyingKey::from_bytes(&bytes)
         .map_err(|_| LicenseError::InvalidPublicKey)
 }
 
@@ -108,7 +109,9 @@ pub fn verify_pro_access(required_feature: Option<&str>) -> Result<(), LicenseEr
         .map_err(|e| LicenseError::InvalidFormat(format!("Invalid base64 payload: {}", e)))?;
     
     // Parse signature
-    let signature = Signature::from_bytes(&signature_bytes)
+    let sig_bytes: [u8; 64] = signature_bytes.try_into()
+        .map_err(|_| LicenseError::InvalidFormat("Invalid signature length".to_string()))?;
+    let signature = Signature::from_bytes(&sig_bytes)
         .map_err(|_| LicenseError::InvalidFormat("Invalid signature format".to_string()))?;
     
     // Parse payload
@@ -122,7 +125,7 @@ pub fn verify_pro_access(required_feature: Option<&str>) -> Result<(), LicenseEr
             return Err(LicenseError::LicenseExpired(
                 format!("License expired at {}", 
                     time::OffsetDateTime::from_unix_timestamp(expiry)
-                        .map(|dt| dt.format("%Y-%m-%d %H:%M:%S UTC").unwrap_or_else(|_| expiry.to_string()))
+                        .map(|dt| dt.format(&format_description!("%Y-%m-%d %H:%M:%S UTC")).unwrap_or_else(|_| expiry.to_string()))
                         .unwrap_or_else(|_| expiry.to_string())
                 )
             ));
@@ -192,7 +195,7 @@ pub fn generate_dev_license(
     let secret_bytes = base64::decode(secret_key_base64)
         .map_err(|e| LicenseError::InvalidFormat(format!("Invalid secret key base64: {}", e)))?;
     
-    let secret_key = SecretKey::from_bytes(&secret_bytes)
+    let secret_key = SigningKey::from_bytes(&secret_bytes)
         .map_err(|_| LicenseError::InvalidFormat("Invalid secret key length".to_string()))?;
     
     let payload = LicensePayload {
@@ -260,8 +263,8 @@ mod tests {
         
         // Generate a test key pair
         let mut csprng = rand::rngs::OsRng;
-        let signing_key: SecretKey = SecretKey::generate(&mut csprng);
-        let verifying_key: PublicKey = (&signing_key).into();
+        let signing_key = SigningKey::generate(&mut csprng);
+        let verifying_key = VerifyingKey::from(&signing_key);
         
         let secret_key_base64 = general_purpose::STANDARD.encode(signing_key.to_bytes());
         let features = vec!["cloud_sim", "optimization"];

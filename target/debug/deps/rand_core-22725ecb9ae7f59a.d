@@ -1,0 +1,11 @@
+/home/julien/Desktop/Free-Wiggum-opencode/projects/edgebot-ai/target/debug/deps/rand_core-22725ecb9ae7f59a.d: /home/julien/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/rand_core-0.9.5/src/lib.rs /home/julien/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/rand_core-0.9.5/src/block.rs /home/julien/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/rand_core-0.9.5/src/impls.rs /home/julien/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/rand_core-0.9.5/src/le.rs /home/julien/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/rand_core-0.9.5/src/os.rs
+
+/home/julien/Desktop/Free-Wiggum-opencode/projects/edgebot-ai/target/debug/deps/librand_core-22725ecb9ae7f59a.rlib: /home/julien/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/rand_core-0.9.5/src/lib.rs /home/julien/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/rand_core-0.9.5/src/block.rs /home/julien/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/rand_core-0.9.5/src/impls.rs /home/julien/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/rand_core-0.9.5/src/le.rs /home/julien/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/rand_core-0.9.5/src/os.rs
+
+/home/julien/Desktop/Free-Wiggum-opencode/projects/edgebot-ai/target/debug/deps/librand_core-22725ecb9ae7f59a.rmeta: /home/julien/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/rand_core-0.9.5/src/lib.rs /home/julien/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/rand_core-0.9.5/src/block.rs /home/julien/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/rand_core-0.9.5/src/impls.rs /home/julien/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/rand_core-0.9.5/src/le.rs /home/julien/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/rand_core-0.9.5/src/os.rs
+
+/home/julien/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/rand_core-0.9.5/src/lib.rs:
+/home/julien/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/rand_core-0.9.5/src/block.rs:
+/home/julien/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/rand_core-0.9.5/src/impls.rs:
+/home/julien/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/rand_core-0.9.5/src/le.rs:
+/home/julien/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/rand_core-0.9.5/src/os.rs:

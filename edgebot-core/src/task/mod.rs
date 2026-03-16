@@ -483,13 +483,13 @@ fn heuristic(a: (usize, usize), b: (usize, usize)) -> usize {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use burn::backend::tch::TchBackend;
+    use burn::backend::wgpu::WgpuBackend;
     use burn::tensor::Tensor;
     use burn::tensor::Data;
     
     #[test]
     fn test_yolo_set_batch_size() {
-        let device = TchBackend::Device::default();
+        let device = WgpuBackend::Device::default();
         // Create a dummy linear model as placeholder (not a real YOLO)
         let linear = burn::nn::Linear::new(
             burn::nn::LinearConfig::new(3, 2)
@@ -509,7 +509,7 @@ mod tests {
     
     #[test]
     fn test_yolo_threshold_clamping() {
-        let device = TchBackend::Device::default();
+        let device = WgpuBackend::Device::default();
         let linear = burn::nn::Linear::new(burn::nn::LinearConfig::new(3, 2));
         let model = burn::nn::Model::new(linear);
         let engine = InferenceEngine::new(model, device);
@@ -527,8 +527,8 @@ mod tests {
     
     #[test]
     fn test_decode_yolo_output_simple() {
-        // Create a simple output tensor manually using TchBackend
-        let device = TchBackend::Device::default();
+        // Create a simple output tensor manually using WgpuBackend
+        let device = WgpuBackend::Device::default();
         // Tensor shape: [1, 6, 2] (batch=1, 2 classes, 2 boxes)
         let data = vec![
             // f0 (x): box0, box1
@@ -580,7 +580,7 @@ mod tests {
     
     #[test]
     fn test_decode_yolo_output_threshold_filtering() {
-        let device = TchBackend::Device::default();
+        let device = WgpuBackend::Device::default();
         // Same as above but with one box having confidence below threshold
         let data = vec![
             0.3, 0.7,

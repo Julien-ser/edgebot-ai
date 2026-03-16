@@ -129,12 +129,12 @@ impl<B: Backend> InferenceEngine<B> {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use burn::backend::tch::TchBackend;
+    use burn::backend::wgpu::WgpuBackend;
 
     #[test]
     fn test_load_and_forward_bin() {
         // Create a simple linear model: y = Wx + b
-        let device = TchBackend::Device::default();
+        let device = WgpuBackend::Device::default();
         let input_features = 3;
         let output_features = 2;
 
@@ -153,11 +153,11 @@ mod tests {
         }
 
         // Load using InferenceEngine
-        let engine = InferenceEngine::<TchBackend>::load_bin(&path, device.clone())
+        let engine = InferenceEngine::<WgpuBackend>::load_bin(&path, device.clone())
             .expect("Failed to load model");
 
         // Create random input tensor
-        let input = Tensor::<TchBackend>::random(
+        let input = Tensor::<WgpuBackend>::random(
             [1, input_features],
             burn::tensor::Distribution::Uniform(-1.0, 1.0),
             &device,
@@ -172,17 +172,17 @@ mod tests {
 
     #[test]
     fn test_unsupported_format() {
-        let device = TchBackend::Device::default();
+        let device = WgpuBackend::Device::default();
         let fake_path = Path::new("model.xyz");
-        let result = InferenceEngine::<TchBackend>::load(fake_path, &[1, 3], device);
+        let result = InferenceEngine::<WgpuBackend>::load(fake_path, &[1, 3], device);
         assert!(matches!(result, Err(InferenceError::UnsupportedFormat(_))));
     }
 
     #[test]
     fn test_missing_extension() {
-        let device = TchBackend::Device::default();
+        let device = WgpuBackend::Device::default();
         let fake_path = Path::new("no_extension");
-        let result = InferenceEngine::<TchBackend>::load(fake_path, &[1, 3], device);
+        let result = InferenceEngine::<WgpuBackend>::load(fake_path, &[1, 3], device);
         assert!(matches!(result, Err(InferenceError::UnsupportedFormat(_))));
     }
 }
