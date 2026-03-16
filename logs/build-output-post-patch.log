@@ -1,0 +1,5 @@
+error: failed to resolve patches for `https://github.com/rust-lang/crates.io-index`
+
+Caused by:
+  patch for `wgpu` in `https://github.com/rust-lang/crates.io-index` points to the same source, but patches must point to different sources.
+  Check the patch definition in `/home/julien/Desktop/Free-Wiggum-opencode/projects/edgebot-ai/Cargo.toml`.

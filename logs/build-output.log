@@ -1,0 +1,9 @@
+    Updating crates.io index
+error: failed to select a version for the requirement `wgpu = "^0.18.0"`
+  version 0.18.0 is yanked
+location searched: crates.io index
+required by package `burn-wgpu v0.12.1`
+    ... which satisfies dependency `burn-wgpu = "^0.12.1"` of package `burn-core v0.12.1`
+    ... which satisfies dependency `burn-core = "^0.12.1"` of package `burn v0.12.1`
+    ... which satisfies dependency `burn = "^0.12.1"` of package `edgebot-core v0.1.0 (/home/julien/Desktop/Free-Wiggum-opencode/projects/edgebot-ai/edgebot-core)`
+    ... which satisfies path dependency `edgebot-core` (locked to 0.1.0) of package `edgebot-cli v0.1.0 (/home/julien/Desktop/Free-Wiggum-opencode/projects/edgebot-ai/edgebot-cli)`
