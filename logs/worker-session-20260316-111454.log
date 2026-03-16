@@ -1,0 +1,27 @@
+🚀 Starting Wiggum Worker for: edgebot-ai
+📍 Project Path: /home/julien/Desktop/Free-Wiggum-opencode/projects/edgebot-ai
+⏰ Started at: Mon Mar 16 11:14:54 AM EDT 2026
+⚡ Token Budget: 64000
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━════
+
+📍 Iteration 55 at Mon Mar 16 11:14:54 AM EDT 2026...
+🤖 OpenCode processing: ✅ Verify GitHub Actions CI is passing - Run `cargo build` and `cargo test` locally to confirm all builds succeed. Check GitHub Actions to see all test workflows pass (no failures/cancellations). Update project status in README.md if CI is green.
+1183 |     const info = provider.models[modelID]
+1184 |     if (!info) {
+1185 |       const availableModels = Object.keys(provider.models)
+1186 |       const matches = fuzzysort.go(modelID, availableModels, { limit: 3, threshold: -10000 })
+1187 |       const suggestions = matches.map((m) => m.target)
+1188 |       throw new ModelNotFoundError({ providerID, modelID, suggestions })
+                   ^
+ProviderModelNotFoundError: ProviderModelNotFoundError
+ data: {
+  providerID: "openrouter",
+  modelID: "hunter-alpha",
+  suggestions: [ "openrouter/hunter-alpha" ],
+},
+
+      at getModel (src/provider/provider.ts:1188:13)
+
+[91m[1mError: [0mModel not found: openrouter/hunter-alpha. Did you mean: openrouter/hunter-alpha?
+📝 Log saved: logs/iteration-55.md
+📊 Token Usage: 6000 / Session: 6000 / 64000
