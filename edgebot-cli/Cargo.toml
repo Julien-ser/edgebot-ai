@@ -33,8 +33,3 @@ edgebot-licensing = { path = "../edgebot-licensing" }
 [dev-dependencies]
 assert_cmd = "2.0"
 tempfile = "3.0"
-
-[profile.release]
-lto = true
-codegen-units = 1
-opt-level = "z"

@@ -19,7 +19,7 @@
 
 use super::{BorrowedBuffer, CameraBuffer, ImageFormat, ImageMetadata, LidarBuffer, PointFormat};
 use std::marker::PhantomData;
-use sensor_msgs::msg::Image;
+use ros2_sensor_msgs::msg::Image;
 
 /// Trait for types that can be created from ROS2 sensor messages with zero-copy.
 ///
@@ -145,8 +145,8 @@ impl Ros2ImageBuilder {
     /// Build the ROS2 Image message (pseudo-code, actual struct from rclrs).
     ///
     /// ```ignore
-    /// use sensor_msgs::msg::Image;
-    /// use std::msg::Header;
+    /// use ros2_sensor_msgs::msg::Image;
+    /// use ros2_std_msgs::msg::Header;
     ///
     /// pub fn build(&self) -> Image {
     ///     Image {
@@ -162,7 +162,7 @@ impl Ros2ImageBuilder {
     /// ```
     pub fn build(&self) -> () {
         // Placeholder - actual ROS2 image construction happens elsewhere
-        // This would return sensor_msgs::msg::Image
+        // This would return ros2_sensor_msgs::msg::Image
     }
 
     /// Get the expected data size for this image configuration.

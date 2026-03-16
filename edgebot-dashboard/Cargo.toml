@@ -21,8 +21,3 @@ time = "0.3"
 [dev-dependencies]
 wasm-bindgen-test = "0.3"
 trunk = "0.17"
-
-[profile.release]
-lto = true
-codegen-units = 1
-opt-level = "z"
